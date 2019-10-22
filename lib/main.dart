@@ -29,7 +29,7 @@ class DayBoxState extends State<DayBox> {
         onTap: () {
           showDialog(
             context: context,
-            builder: (BuildContext context) => _buildAboutDialog(context),
+            builder: (BuildContext context) => ModalUpdateDay().build(context),
           );
         },
         child: SizedBox(
@@ -44,10 +44,6 @@ class DayBoxState extends State<DayBox> {
       )
     );
   }
-
-  Widget _buildAboutDialog(BuildContext context) {
-    return ModalUpdateDay().build(context);
-  }
 }
 
 class DayBox extends StatefulWidget {
@@ -56,18 +52,26 @@ class DayBox extends StatefulWidget {
 }
 
 class ModalUpdateDay {
+  final _colors = [Colors.pink, Colors.red, Colors.blue, Colors.green];
+  final _selected = Colors.white;
   Widget build(BuildContext context) {
     return new AlertDialog(
-      title: const Text('About Pop up'),
-      content: new Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text('Danizinha'),
-        ],
+      title: const Text('How was your day?'),
+      content: new Container(
+        margin: EdgeInsets.symmetric(vertical: 20.0),
+        height: 50.0,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: _colors.length, itemBuilder: (context, index) {
+            return Container(
+              width: 50.0,
+              child: Card(color: _colors[index],),
+            );
+          },
+        ),
       ),
       actions: <Widget>[
-        new FlatButton(
+        new MaterialButton(
           onPressed: () {
             Navigator.of(context).pop();
           },
