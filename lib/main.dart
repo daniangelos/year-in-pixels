@@ -21,27 +21,37 @@ class MyApp extends StatelessWidget {
 }
 
 class DayBoxState extends State<DayBox> {
-  var _tapped = false;
+  Color _color = Colors.white;
   @override
   Widget build(BuildContext context) {
     return Center(
       child: GestureDetector(
         onTap: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) => ModalUpdateDay().build(context),
-          );
+          createUpdateDayDialog().then((color){
+            setState((){
+              _color = color;
+              print(color.toString());
+            });
+          });
         },
         child: SizedBox(
           width: 150,
           height: 150,
           child: DecoratedBox(
             decoration: BoxDecoration(
-              color: _tapped ? Colors.pink : Colors.black
+              color: _color,
+              border: Border.all(color: Colors.black),
             ),
           ),
         ),
       )
+    );
+  }
+
+  Future<Color> createUpdateDayDialog() {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) => ModalUpdateDay(),
     );
   }
 }
@@ -51,21 +61,28 @@ class DayBox extends StatefulWidget {
   DayBoxState createState() => DayBoxState();
 }
 
-class ModalUpdateDay {
+class ModalUpdateDayState extends State<ModalUpdateDay> {
   final _colors = [Colors.pink, Colors.red, Colors.blue, Colors.green];
-  final _selected = Colors.white;
+  var _selected = Colors.white;
   Widget build(BuildContext context) {
     return new AlertDialog(
-      title: const Text('How was your day?'),
+      title: const Text('How was your days?'),
       content: new Container(
         margin: EdgeInsets.symmetric(vertical: 20.0),
         height: 50.0,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: _colors.length, itemBuilder: (context, index) {
-            return Container(
-              width: 50.0,
-              child: Card(color: _colors[index],),
+            return GestureDetector(
+              onTap: () { setState(() {_selected = _colors[index]; } ); },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: _colors[index],
+                  border: _selected == _colors[index] ? Border.all(width: 2, color: Colors.black) : null,
+                ),
+                width: 50.0,
+                margin: EdgeInsets.only(left: 5.0),
+              ),
             );
           },
         ),
@@ -73,7 +90,7 @@ class ModalUpdateDay {
       actions: <Widget>[
         new MaterialButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.of(context).pop(_selected);
           },
           textColor: Theme.of(context).primaryColor,
           child: const Text('Set color'),
@@ -81,4 +98,9 @@ class ModalUpdateDay {
       ],
     );
   }
+}
+
+class ModalUpdateDay extends StatefulWidget {
+  @override
+  ModalUpdateDayState createState() => ModalUpdateDayState();
 }
