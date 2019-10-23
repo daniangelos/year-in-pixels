@@ -29,8 +29,8 @@ class DayBoxState extends State<DayBox> {
         onTap: () {
           createUpdateDayDialog().then((color){
             setState((){
-              _color = color;
-              print(color.toString());
+              _color = color != null ? color : _color;
+              print(this._color);
             });
           });
         },
@@ -49,9 +49,10 @@ class DayBoxState extends State<DayBox> {
   }
 
   Future<Color> createUpdateDayDialog() {
+    print("alo " + this._color.toString());
     return showDialog(
       context: context,
-      builder: (BuildContext context) => ModalUpdateDay(),
+      builder: (BuildContext context) => ModalUpdateDay(currentColor: this._color),
     );
   }
 }
@@ -63,7 +64,12 @@ class DayBox extends StatefulWidget {
 
 class ModalUpdateDayState extends State<ModalUpdateDay> {
   final _colors = [Colors.pink, Colors.red, Colors.blue, Colors.green];
-  var _selected = Colors.white;
+  Color _selected = Colors.white;
+
+  ModalUpdateDayState(Color currentColor) {
+    _selected = currentColor;
+  }
+
   Widget build(BuildContext context) {
     return new AlertDialog(
       title: const Text('How was your days?'),
@@ -101,6 +107,10 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
 }
 
 class ModalUpdateDay extends StatefulWidget {
+  final Color currentColor;
+
+  ModalUpdateDay( {Key key, this.currentColor} ) : super(key: key);
+
   @override
-  ModalUpdateDayState createState() => ModalUpdateDayState();
+  ModalUpdateDayState createState() => ModalUpdateDayState(this.currentColor);
 }
