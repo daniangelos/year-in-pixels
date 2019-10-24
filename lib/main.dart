@@ -30,7 +30,6 @@ class DayBoxState extends State<DayBox> {
           createUpdateDayDialog().then((color){
             setState((){
               _color = color != null ? color : _color;
-              print(this._color);
             });
           });
         },
@@ -49,7 +48,6 @@ class DayBoxState extends State<DayBox> {
   }
 
   Future<Color> createUpdateDayDialog() {
-    print("alo " + this._color.toString());
     return showDialog(
       context: context,
       builder: (BuildContext context) => ModalUpdateDay(currentColor: this._color),
