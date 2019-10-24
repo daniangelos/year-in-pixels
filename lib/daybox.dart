@@ -14,8 +14,8 @@ class DayBoxState extends State<DayBox> {
           });
         },
         child: SizedBox(
-          width: 150,
-          height: 150,
+          width: 15,
+          height: 15,
           child: DecoratedBox(
             decoration: BoxDecoration(
               color: _color,
@@ -41,7 +41,7 @@ class DayBox extends StatefulWidget {
 }
 
 class ModalUpdateDayState extends State<ModalUpdateDay> {
-  final _colors = [Colors.pink, Colors.red, Colors.blue, Colors.green];
+  final _colors = [Colors.pink, Colors.black, Colors.blue, Colors.green];
   Color _selected = Colors.white;
 
   ModalUpdateDayState(Color currentColor) {
@@ -87,7 +87,7 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
 class ModalUpdateDay extends StatefulWidget {
   final Color currentColor;
 
-  ModalUpdateDay( {Key key, this.currentColor} ) : super(key: key);
+  ModalUpdateDay({ Key key, this.currentColor }) : super(key: key);
 
   @override
   ModalUpdateDayState createState() => ModalUpdateDayState(this.currentColor);
