@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './constants.dart';
 
 class DayBoxState extends State<DayBox> {
   Color _color = Colors.white;
@@ -14,8 +15,8 @@ class DayBoxState extends State<DayBox> {
           });
         },
         child: SizedBox(
-          width: 15,
-          height: 15,
+          width: BOXSIZE,
+          height: BOXSIZE,
           child: DecoratedBox(
             decoration: BoxDecoration(
               color: _color,
