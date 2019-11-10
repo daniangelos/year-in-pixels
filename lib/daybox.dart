@@ -51,7 +51,7 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
 
   Widget build(BuildContext context) {
     return new AlertDialog(
-      title: const Text('How was your days?'),
+      title: const Text('How was your day?'),
       content: new Container(
         margin: EdgeInsets.symmetric(vertical: 20.0),
         height: 50.0,
