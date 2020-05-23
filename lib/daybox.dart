@@ -1,42 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import './constants.dart';
+import 'controllers/gridController.dart';
 
 class DayBoxState extends State<DayBox> {
-  Color _color = Colors.white;
+  Color _color;
   @override
   Widget build(BuildContext context) {
+    GridController grid = Provider.of<GridController>(context);
+    _color = grid.getDayColor(widget.index);
+
     return Center(
-      child: GestureDetector(
-        onTap: () {
-          createUpdateDayDialog().then((color){
-            setState((){
-              _color = color != null ? color : _color;
-            });
+        child: GestureDetector(
+      onTap: () {
+        createUpdateDayDialog().then((color) {
+          setState(() {
+            if (color != null) {
+              grid.setDayColor(widget.index, color);
+            }
           });
-        },
-        child: SizedBox(
-          width: BOXSIZE,
-          height: BOXSIZE,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: _color,
-              border: Border.all(color: Colors.black),
-            ),
+        });
+      },
+      child: SizedBox(
+        width: BOXSIZE,
+        height: BOXSIZE,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: _color,
+            border: Border.all(color: Colors.black),
           ),
         ),
-      )
-    );
+      ),
+    ));
   }
 
   Future<Color> createUpdateDayDialog() {
     return showDialog(
       context: context,
-      builder: (BuildContext context) => ModalUpdateDay(currentColor: this._color),
+      builder: (BuildContext context) =>
+          ModalUpdateDay(currentColor: this._color),
     );
   }
 }
 
 class DayBox extends StatefulWidget {
+  final int index;
+
+  DayBox(int index, {Key key})
+      : this.index = index,
+        super(key: key);
+
   @override
   DayBoxState createState() => DayBoxState();
 }
@@ -57,13 +70,20 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
         height: 50.0,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          itemCount: _colors.length, itemBuilder: (context, index) {
+          itemCount: _colors.length,
+          itemBuilder: (context, index) {
             return GestureDetector(
-              onTap: () { setState(() {_selected = _colors[index]; } ); },
+              onTap: () {
+                setState(() {
+                  _selected = _colors[index];
+                });
+              },
               child: Container(
                 decoration: BoxDecoration(
                   color: _colors[index],
-                  border: _selected == _colors[index] ? Border.all(width: 2, color: Colors.black) : null,
+                  border: _selected == _colors[index]
+                      ? Border.all(width: 2, color: Colors.black)
+                      : null,
                 ),
                 width: 50.0,
                 margin: EdgeInsets.only(left: 5.0),
@@ -88,7 +108,7 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
 class ModalUpdateDay extends StatefulWidget {
   final Color currentColor;
 
-  ModalUpdateDay({ Key key, this.currentColor }) : super(key: key);
+  ModalUpdateDay({Key key, this.currentColor}) : super(key: key);
 
   @override
   ModalUpdateDayState createState() => ModalUpdateDayState(this.currentColor);
