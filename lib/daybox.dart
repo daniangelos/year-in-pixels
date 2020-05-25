@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 import './constants.dart';
 import 'controllers/gridController.dart';
 
 class DayBoxState extends State<DayBox> {
   Color _color;
+  DateTime _date;
+
   @override
   Widget build(BuildContext context) {
     GridController grid = Provider.of<GridController>(context);
     _color = grid.getDayColor(widget.index);
+    _date = grid.getDayDate(widget.index);
 
     return Center(
         child: GestureDetector(
@@ -38,7 +42,7 @@ class DayBoxState extends State<DayBox> {
     return showDialog(
       context: context,
       builder: (BuildContext context) =>
-          ModalUpdateDay(currentColor: this._color),
+          ModalUpdateDay(currentColor: this._color, date: _date),
     );
   }
 }
@@ -55,16 +59,22 @@ class DayBox extends StatefulWidget {
 }
 
 class ModalUpdateDayState extends State<ModalUpdateDay> {
-  final _colors = [Colors.pink, Colors.black, Colors.blue, Colors.green];
+  final List<Color> _colors = DEFAULT_COLORS;
+  String _date;
   Color _selected = Colors.white;
 
-  ModalUpdateDayState(Color currentColor) {
+  ModalUpdateDayState(Color currentColor, DateTime date) {
     _selected = currentColor;
+    DateFormat formatter = DateFormat('MMM d, y');
+    _date = formatter.format(date);
   }
 
   Widget build(BuildContext context) {
     return new AlertDialog(
-      title: const Text('How was your day?'),
+      title: ListTile(
+        title: Text(_date),
+        subtitle: Text('How was your day, Dani?'),
+      ),
       content: new Container(
         margin: EdgeInsets.symmetric(vertical: 20.0),
         height: 50.0,
@@ -107,9 +117,11 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
 
 class ModalUpdateDay extends StatefulWidget {
   final Color currentColor;
+  final DateTime date;
 
-  ModalUpdateDay({Key key, this.currentColor}) : super(key: key);
+  ModalUpdateDay({Key key, this.currentColor, this.date}) : super(key: key);
 
   @override
-  ModalUpdateDayState createState() => ModalUpdateDayState(this.currentColor);
+  ModalUpdateDayState createState() =>
+      ModalUpdateDayState(this.currentColor, this.date);
 }

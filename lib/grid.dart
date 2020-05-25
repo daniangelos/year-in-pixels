@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:year_in_pixels/controllers/gridController.dart';
 import 'package:year_in_pixels/constants.dart';
 import './daybox.dart';
 import './util.dart';
@@ -110,10 +108,8 @@ class Month extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Provider(
-        create: (context) => GridController(),
-        child: Column(
-          children: dayBoxes,
-        ));
+    return Column(
+      children: dayBoxes,
+    );
   }
 }

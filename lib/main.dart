@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import './grid.dart';
+import 'controllers/gridController.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(
+      Provider(create: (context) => GridController(), child: MyApp()),
+    );
 
 class MyApp extends StatelessWidget {
   @override
@@ -15,10 +19,8 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text('Year in Pixels'),
         ),
-        body: Grid(year: 2019),
+        body: Grid(year: 2020),
       ),
     );
   }
 }
-
-
