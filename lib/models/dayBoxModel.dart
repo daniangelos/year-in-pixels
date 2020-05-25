@@ -1,25 +1,16 @@
 import 'dart:math';
-
-import 'package:flutter/material.dart';
-
 import '../util.dart';
+import 'feelingModel.dart';
 
 class DayBoxModel {
-  Color color;
+  FeelingModel feeling;
   DateTime date;
   int id;
 
-  static List colors = [
-    Colors.pink,
-    Colors.black,
-    Colors.blue,
-    Colors.red,
-    Colors.green,
-    Colors.yellow
-  ];
   static Random random = new Random();
 
-  DayBoxModel(this.id, this.date) : color = colors[random.nextInt(6)];
+  DayBoxModel(this.id, this.date)
+      : feeling = FeelingModel.getAllFeelings()[random.nextInt(6)];
 
   static List<DayBoxModel> getAllDays(int year) {
     // Mocked data
@@ -36,7 +27,7 @@ class DayBoxModel {
     return allDays;
   }
 
-  void setColor(Color color) {
-    this.color = color;
+  void setFeeling(FeelingModel feeling) {
+    this.feeling = feeling;
   }
 }

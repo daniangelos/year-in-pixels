@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:year_in_pixels/models/dayBoxModel.dart';
+import 'package:year_in_pixels/models/feelingModel.dart';
 
 class GridController {
   List<DayBoxModel> days;
@@ -10,15 +10,15 @@ class GridController {
     days = DayBoxModel.getAllDays(year);
   }
 
-  Color getDayColor(int index) {
-    return days[index].color;
+  FeelingModel getDayFeeling(int index) {
+    return days[index].feeling;
   }
 
   DateTime getDayDate(int index) {
     return days[index].date;
   }
 
-  void setDayColor(int index, Color color) {
-    days[index].setColor(color);
+  void setDayFeeling(int index, FeelingModel feeling) {
+    days[index].setFeeling(feeling);
   }
 }

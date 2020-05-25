@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import './constants.dart';
+import 'controllers/feelingsController.dart';
 import 'controllers/gridController.dart';
+import 'models/feelingModel.dart';
 
 class DayBoxState extends State<DayBox> {
   Color _color;
@@ -11,16 +13,16 @@ class DayBoxState extends State<DayBox> {
   @override
   Widget build(BuildContext context) {
     GridController grid = Provider.of<GridController>(context);
-    _color = grid.getDayColor(widget.index);
+    _color = grid.getDayFeeling(widget.index).color;
     _date = grid.getDayDate(widget.index);
 
     return Center(
         child: GestureDetector(
       onTap: () {
-        createUpdateDayDialog().then((color) {
+        createUpdateDayDialog().then((feeling) {
           setState(() {
-            if (color != null) {
-              grid.setDayColor(widget.index, color);
+            if (feeling != null) {
+              grid.setDayFeeling(widget.index, feeling);
             }
           });
         });
@@ -38,12 +40,13 @@ class DayBoxState extends State<DayBox> {
     ));
   }
 
-  Future<Color> createUpdateDayDialog() {
+  Future<FeelingModel> createUpdateDayDialog() {
     return showDialog(
-      context: context,
-      builder: (BuildContext context) =>
-          ModalUpdateDay(currentColor: this._color, date: _date),
-    );
+        context: context,
+        builder: (BuildContext context) => Provider(
+              create: (context) => FeelingsController(),
+              child: ModalUpdateDay(currentColor: this._color, date: _date),
+            ));
   }
 }
 
@@ -59,17 +62,23 @@ class DayBox extends StatefulWidget {
 }
 
 class ModalUpdateDayState extends State<ModalUpdateDay> {
-  final List<Color> _colors = DEFAULT_COLORS;
+  List<FeelingModel> _feelings;
   String _date;
-  Color _selected = Colors.white;
+  FeelingModel _selected;
+  Color _color;
 
   ModalUpdateDayState(Color currentColor, DateTime date) {
-    _selected = currentColor;
+    _color = currentColor;
     DateFormat formatter = DateFormat('MMM d, y');
     _date = formatter.format(date);
   }
 
   Widget build(BuildContext context) {
+    FeelingsController feelingsController =
+        Provider.of<FeelingsController>(context);
+    _feelings = feelingsController.feelings;
+    _selected = feelingsController.getFeelingByColor(_color);
+
     return new AlertDialog(
       title: ListTile(
         title: Text(_date),
@@ -80,18 +89,18 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
         height: 50.0,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          itemCount: _colors.length,
+          itemCount: _feelings.length,
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
                 setState(() {
-                  _selected = _colors[index];
+                  _color = _feelings[index].color;
                 });
               },
               child: Container(
                 decoration: BoxDecoration(
-                  color: _colors[index],
-                  border: _selected == _colors[index]
+                  color: _feelings[index].color,
+                  border: _color == _feelings[index].color
                       ? Border.all(width: 2, color: Colors.black)
                       : null,
                 ),
