@@ -17,6 +17,8 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
+  path_provider: ^1.6.9
+  sembast: ^2.4.4+1
   intl: ^0.16.1
   provider: ^4.1.2
   flutter:

@@ -13,6 +13,9 @@ class DayBoxState extends State<DayBox> {
   @override
   Widget build(BuildContext context) {
     GridController grid = Provider.of<GridController>(context);
+    if (grid.days.isEmpty) {
+      return Center(child: Text("Loading..."));
+    }
     _color = grid.getDayFeeling(widget.index).color;
     _date = grid.getDayDate(widget.index);
 

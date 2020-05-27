@@ -1,30 +1,28 @@
 import 'dart:math';
-import '../util.dart';
+import 'package:sembast/timestamp.dart';
+
 import 'feelingModel.dart';
 
 class DayBoxModel {
   FeelingModel feeling;
   DateTime date;
-  int id;
+  int id, year;
 
   static Random random = new Random();
 
-  DayBoxModel(this.id, this.date)
-      : feeling = FeelingModel.getAllFeelings()[random.nextInt(6)];
+  DayBoxModel({this.date})
+      : year = date.year,
+        feeling = FeelingModel.getAllFeelings()[random.nextInt(6)];
 
-  static List<DayBoxModel> getAllDays(int year) {
-    // Mocked data
-    List<int> numberOfDaysPerMonth = getAllNumberOfDaysPerMonth(year);
-    List<DayBoxModel> allDays = List<DayBoxModel>();
+  Map<String, dynamic> toMap() {
+    return {
+      'date': Timestamp.fromDateTime(date),
+      'year': year,
+    };
+  }
 
-    int currentId = 0;
-    for (int month = 1; month <= 12; month++) {
-      for (int day = 1; day <= numberOfDaysPerMonth[month - 1]; day++) {
-        allDays.add(DayBoxModel(currentId++, DateTime.utc(year, month, day)));
-      }
-    }
-
-    return allDays;
+  static DayBoxModel fromMap(Map<String, dynamic> map) {
+    return DayBoxModel(date: map['date'].toDateTime());
   }
 
   void setFeeling(FeelingModel feeling) {
