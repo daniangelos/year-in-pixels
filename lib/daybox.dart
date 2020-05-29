@@ -13,9 +13,6 @@ class DayBoxState extends State<DayBox> {
   @override
   Widget build(BuildContext context) {
     GridController grid = Provider.of<GridController>(context);
-    if (grid.days.isEmpty) {
-      return Center(child: Text("Loading..."));
-    }
     _color = grid.getDayFeeling(widget.index).color;
     _date = grid.getDayDate(widget.index);
 
@@ -103,7 +100,7 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
               child: Container(
                 decoration: BoxDecoration(
                   color: _feelings[index].color,
-                  border: _color == _feelings[index].color
+                  border: _color.value == _feelings[index].color.value
                       ? Border.all(width: 2, color: Colors.black)
                       : null,
                 ),

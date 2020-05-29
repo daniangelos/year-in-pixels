@@ -8,21 +8,22 @@ class DayBoxModel {
   DateTime date;
   int id, year;
 
-  static Random random = new Random();
+  DayBoxModel({this.date, this.feeling}) : year = date.year;
 
-  DayBoxModel({this.date})
-      : year = date.year,
-        feeling = FeelingModel.getAllFeelings()[random.nextInt(6)];
-
+  // We are converting from DateTime to Timestamp
+  // because Sembast doesn't accept DateTime type
   Map<String, dynamic> toMap() {
     return {
       'date': Timestamp.fromDateTime(date),
       'year': year,
+      'feeling': feeling.toMap()
     };
   }
 
   static DayBoxModel fromMap(Map<String, dynamic> map) {
-    return DayBoxModel(date: map['date'].toDateTime());
+    return DayBoxModel(
+        date: map['date'].toDateTime(),
+        feeling: FeelingModel.fromMap(map['feeling']));
   }
 
   void setFeeling(FeelingModel feeling) {

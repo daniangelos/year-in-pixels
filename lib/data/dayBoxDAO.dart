@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:sembast/sembast.dart';
 import 'package:year_in_pixels/data/appDatabase.dart';
 import 'package:year_in_pixels/models/dayBoxModel.dart';
+import 'package:year_in_pixels/models/feelingModel.dart';
 
 import '../util.dart';
 
@@ -47,12 +50,16 @@ class DayBoxDAO {
     }).toList();
   }
 
+  static Random random = new Random();
+
   Future<List<DayBoxModel>> createAllDays(int year) async {
     List<int> numberOfDaysPerMonth = getAllNumberOfDaysPerMonth(year);
 
     for (int month = 1; month <= 12; month++) {
       for (int day = 1; day <= numberOfDaysPerMonth[month - 1]; day++) {
-        await insert(DayBoxModel(date: DateTime.utc(year, month, day)));
+        await insert(DayBoxModel(
+            date: DateTime.utc(year, month, day),
+            feeling: FeelingModel.getAllFeelings()[random.nextInt(6)]));
       }
     }
 

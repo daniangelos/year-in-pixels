@@ -4,7 +4,8 @@ import './grid.dart';
 import 'controllers/gridController.dart';
 
 void main() => runApp(
-      Provider(create: (context) => GridController(), child: MyApp()),
+      ChangeNotifierProvider(
+          create: (context) => GridController(), child: MyApp()),
     );
 
 class MyApp extends StatelessWidget {

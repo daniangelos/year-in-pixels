@@ -9,6 +9,6 @@ class FeelingsController {
   }
 
   FeelingModel getFeelingByColor(Color color) {
-    return feelings.firstWhere((feeling) => feeling.color == color);
+    return feelings.firstWhere((feeling) => feeling.color.value == color.value);
   }
 }
