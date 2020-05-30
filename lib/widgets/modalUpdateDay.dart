@@ -29,28 +29,37 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
       ),
       content: new Container(
         margin: EdgeInsets.symmetric(vertical: 20.0),
-        height: 50.0,
+        height: 70.0,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: _feelings.length,
           itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: () {
-                setState(() {
-                  _color = _feelings[index].color;
-                });
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: _feelings[index].color,
-                  border: _color.value == _feelings[index].color.value
-                      ? Border.all(width: 2, color: Colors.black)
-                      : null,
+            return Column(children: [
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _color = _feelings[index].color;
+                  });
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: _feelings[index].color,
+                    border: _color.value == _feelings[index].color.value
+                        ? Border.all(width: 2, color: Colors.black)
+                        : null,
+                  ),
+                  width: 50.0,
+                  height: 50.0,
+                  margin: EdgeInsets.only(left: 5.0),
                 ),
-                width: 50.0,
-                margin: EdgeInsets.only(left: 5.0),
               ),
-            );
+              Text(
+                _feelings[index].description,
+                style: TextStyle(
+                  fontSize: 10.0,
+                ),
+              ),
+            ]);
           },
         ),
       ),
