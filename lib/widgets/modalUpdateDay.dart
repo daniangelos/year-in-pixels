@@ -22,12 +22,14 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
     _feelings = feelingsController.feelingsCollection.feelings;
     _selected = feelingsController.getFeelingByColor(_color);
 
-    return new AlertDialog(
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0))),
       title: ListTile(
         title: Text(_date),
         subtitle: Text('How was your day, Dani?'),
       ),
-      content: new Container(
+      content: Container(
         margin: EdgeInsets.symmetric(vertical: 20.0),
         height: 70.0,
         child: ListView.builder(
@@ -47,6 +49,7 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
                     border: _color.value == _feelings[index].color.value
                         ? Border.all(width: 2, color: Colors.black)
                         : null,
+                    borderRadius: BorderRadius.all(Radius.circular(4.0)),
                   ),
                   width: 50.0,
                   height: 50.0,
@@ -64,7 +67,7 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
         ),
       ),
       actions: <Widget>[
-        new MaterialButton(
+        MaterialButton(
           onPressed: () {
             Navigator.of(context).pop(_selected);
           },
