@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './grid.dart';
+import 'controllers/feelingsController.dart';
 import 'controllers/gridController.dart';
 
-void main() => runApp(
-      ChangeNotifierProvider(
-          create: (context) => GridController(), child: MyApp()),
-    );
+void main() => runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => FeelingsController()),
+        ChangeNotifierProvider(create: (context) => GridController()),
+      ],
+      child: MyApp(),
+    ));
 
 class MyApp extends StatelessWidget {
   @override

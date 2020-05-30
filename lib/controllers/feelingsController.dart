@@ -1,14 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:year_in_pixels/data/feelingsCollectionDAO.dart';
 import 'package:year_in_pixels/models/feelingModel.dart';
+import 'package:year_in_pixels/models/feelingsCollectionModel.dart';
 
-class FeelingsController {
-  List<FeelingModel> feelings;
+class FeelingsController extends ChangeNotifier {
+  FeelingsCollectionModel feelingsCollection;
+  FeelingsDAO _feelingsDAO;
 
   FeelingsController() {
-    feelings = FeelingModel.getAllFeelings();
+    int year = DateTime.now().year;
+    _feelingsDAO = FeelingsDAO();
+    _feelingsDAO.getAllFeelings(year).then((collection) {
+      if (collection == null) {
+        _feelingsDAO
+            .createDefaultCollection(year)
+            .then((newCollection) => updateFeelings(newCollection));
+      } else {
+        updateFeelings(collection);
+      }
+    });
+  }
+
+  void updateFeelings(FeelingsCollectionModel collection) {
+    feelingsCollection = collection;
+    notifyListeners();
   }
 
   FeelingModel getFeelingByColor(Color color) {
-    return feelings.firstWhere((feeling) => feeling.color.value == color.value);
+    return feelingsCollection.feelings
+        .firstWhere((feeling) => feeling.color.value == color.value);
   }
 }

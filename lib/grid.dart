@@ -4,6 +4,7 @@ import 'package:year_in_pixels/constants.dart';
 import 'package:year_in_pixels/controllers/gridController.dart';
 import './daybox.dart';
 import './util.dart';
+import 'controllers/feelingsController.dart';
 
 class Grid extends StatelessWidget {
   final int year;
@@ -29,8 +30,9 @@ class Grid extends StatelessWidget {
         .map((daysIndexes) => Month(days: daysIndexes))
         .toList();
 
-    return Consumer<GridController>(builder: (context, grid, child) {
-      if (grid.days.isEmpty) {
+    return Consumer2<GridController, FeelingsController>(
+        builder: (context, grid, feelingsController, child) {
+      if (grid.days.isEmpty || feelingsController.feelingsCollection == null) {
         return Text("Loading...");
       }
       return ListView(
