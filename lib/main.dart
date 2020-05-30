@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import './grid.dart';
+import 'package:year_in_pixels/widgets/grid.dart';
 import 'controllers/feelingsController.dart';
 import 'controllers/gridController.dart';
 
