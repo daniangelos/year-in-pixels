@@ -17,26 +17,27 @@ class DayBoxState extends State<DayBox> {
 
     return Center(
         child: GestureDetector(
-      onTap: () {
-        createUpdateDayDialog().then((feeling) {
-          setState(() {
-            if (feeling != null) {
-              grid.setDayFeeling(widget.index, feeling);
-            }
-          });
-        });
-      },
-      child: SizedBox(
-        width: BOXSIZE,
-        height: BOXSIZE,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: _color,
-            border: Border.all(color: Colors.black),
-          ),
-        ),
-      ),
-    ));
+            onTap: () {
+              createUpdateDayDialog().then((feeling) {
+                setState(() {
+                  if (feeling != null) {
+                    grid.setDayFeeling(widget.index, feeling);
+                  }
+                });
+              });
+            },
+            child: Container(
+              child: SizedBox(
+                width: widget.boxsize,
+                height: widget.boxsize,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: _color,
+                    border: Border.all(color: Colors.white, width: 1),
+                  ),
+                ),
+              ),
+            )));
   }
 
   Future<FeelingModel> createUpdateDayDialog() {
@@ -50,9 +51,11 @@ class DayBoxState extends State<DayBox> {
 
 class DayBox extends StatefulWidget {
   final int index;
+  final double boxsize;
 
-  DayBox(int index, {Key key})
+  DayBox(int index, double boxsize, {Key key})
       : this.index = index,
+        this.boxsize = boxsize,
         super(key: key);
 
   @override

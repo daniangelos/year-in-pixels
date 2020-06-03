@@ -13,6 +13,10 @@ class Grid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData queryData;
+    queryData = MediaQuery.of(context);
+    double boxsize = (queryData.size.width / 14.0);
+
     List<int> numberOfDaysPerMonth = getAllNumberOfDaysPerMonth(year);
     List<List<int>> monthsListOfDaysIndexes = List<List<int>>();
 
@@ -27,7 +31,7 @@ class Grid extends StatelessWidget {
     });
 
     List<Month> allMonths = monthsListOfDaysIndexes
-        .map((daysIndexes) => Month(days: daysIndexes))
+        .map((daysIndexes) => Month(days: daysIndexes, boxsize: boxsize))
         .toList();
 
     return Consumer2<GridController, FeelingsController>(
@@ -37,14 +41,16 @@ class Grid extends StatelessWidget {
       }
       return ListView(
         children: <Widget>[
-          MonthsDisplay(),
+          MonthsDisplay(boxsize: boxsize),
           Container(
-            height: 31 * BOXSIZE,
+            height: 31 * boxsize,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: allMonths.length + 1,
               itemBuilder: (context, index) {
-                return index == 0 ? DaysDisplay() : allMonths[index - 1];
+                return index == 0
+                    ? DaysDisplay(boxsize: boxsize)
+                    : allMonths[index - 1];
               },
             ),
           )
@@ -56,13 +62,14 @@ class Grid extends StatelessWidget {
 
 class MonthsDisplay extends StatelessWidget {
   final months;
+  final double boxsize;
 
-  MonthsDisplay({Key key})
+  MonthsDisplay({Key key, this.boxsize})
       : months = new List<Container>.generate(
             12,
             (i) => Container(
-                width: BOXSIZE,
-                height: BOXSIZE,
+                width: boxsize,
+                height: boxsize,
                 child: Align(
                   alignment: Alignment.center,
                   child: Text(monthsFirstLetter(i + 1),
@@ -75,8 +82,8 @@ class MonthsDisplay extends StatelessWidget {
     return Row(
       children: <Widget>[
             Container(
-              width: 20,
-              height: 20,
+              width: boxsize,
+              height: boxsize,
             )
           ] +
           months,
@@ -86,15 +93,16 @@ class MonthsDisplay extends StatelessWidget {
 
 class DaysDisplay extends StatelessWidget {
   final days;
+  final double boxsize;
 
-  DaysDisplay({Key key})
+  DaysDisplay({Key key, this.boxsize})
       : days = new List<Container>.generate(
             31,
             (i) => Container(
-                width: BOXSIZE,
-                height: BOXSIZE,
+                width: boxsize,
+                height: boxsize,
                 child: Align(
-                  alignment: Alignment.centerRight,
+                  alignment: Alignment.center,
                   child: Text((i + 1).toString()),
                 ))),
         super(key: key);
@@ -110,9 +118,10 @@ class DaysDisplay extends StatelessWidget {
 class Month extends StatelessWidget {
   final List<int> days;
   final List<DayBox> dayBoxes;
+  final double boxsize;
 
-  Month({Key key, this.days})
-      : dayBoxes = days.map((index) => DayBox(index)).toList(),
+  Month({Key key, this.days, this.boxsize})
+      : dayBoxes = days.map((index) => DayBox(index, boxsize)).toList(),
         super(key: key);
 
   @override
