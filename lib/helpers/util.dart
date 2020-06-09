@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 List<int> getAllNumberOfDaysPerMonth(int year) {
   int february = isLeapYear(year) ? 29 : 28;
   return [31, february, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -23,4 +25,11 @@ String monthsFirstLetter(int monthIndex) {
     'D'
   ];
   return monthsLetter[monthIndex - 1];
+}
+
+Color getTextColor(Color color) {
+  double greyScale =
+      0.2126 * color.red + 0.7152 * color.green + 0.0722 * color.blue;
+
+  return greyScale < 128 ? Colors.white : Colors.black;
 }
