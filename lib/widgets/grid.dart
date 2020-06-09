@@ -15,7 +15,7 @@ class Grid extends StatelessWidget {
   Widget build(BuildContext context) {
     MediaQueryData queryData;
     queryData = MediaQuery.of(context);
-    double boxsize = (queryData.size.width / 14.0);
+    double boxsize = (queryData.size.width / 12.0);
 
     List<int> numberOfDaysPerMonth = getAllNumberOfDaysPerMonth(year);
     List<List<int>> monthsListOfDaysIndexes = List<List<int>>();
@@ -46,11 +46,9 @@ class Grid extends StatelessWidget {
             height: 31 * boxsize,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: allMonths.length + 1,
+              itemCount: allMonths.length,
               itemBuilder: (context, index) {
-                return index == 0
-                    ? DaysDisplay(boxsize: boxsize)
-                    : allMonths[index - 1];
+                return allMonths[index];
               },
             ),
           )
@@ -80,13 +78,7 @@ class MonthsDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: <Widget>[
-            Container(
-              width: boxsize,
-              height: boxsize,
-            )
-          ] +
-          months,
+      children: months,
     );
   }
 }

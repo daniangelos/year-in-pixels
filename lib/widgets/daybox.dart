@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:year_in_pixels/controllers/gridController.dart';
 import 'package:year_in_pixels/helpers/constants.dart';
+import 'package:year_in_pixels/helpers/util.dart';
 import 'package:year_in_pixels/models/feelingModel.dart';
 import 'package:year_in_pixels/widgets/modalUpdateDay.dart';
 
@@ -35,6 +36,19 @@ class DayBoxState extends State<DayBox> {
                     color: _color,
                     border: Border.all(color: Colors.white, width: 1),
                   ),
+                  child: Container(
+                      margin: EdgeInsets.only(
+                          left: widget.boxsize / 10.0,
+                          bottom: widget.boxsize / 20.0),
+                      child: Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Text(
+                            _date.day.toString(),
+                            style: TextStyle(
+                              fontSize: widget.boxsize / 3.2,
+                              color: getTextColor(_color),
+                            ),
+                          ))),
                 ),
               ),
             )));
