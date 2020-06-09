@@ -15,7 +15,6 @@ class AppDatabase {
   Completer<Database> _dbOpenCompleter;
   AppDatabase._();
 
-  Database _database;
   Future<Database> get database async {
     if (_dbOpenCompleter == null) {
       _dbOpenCompleter = Completer();

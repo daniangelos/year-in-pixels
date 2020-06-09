@@ -2,10 +2,9 @@ import 'dart:math';
 
 import 'package:sembast/sembast.dart';
 import 'package:year_in_pixels/data/appDatabase.dart';
+import 'package:year_in_pixels/helpers/util.dart';
 import 'package:year_in_pixels/models/dayBoxModel.dart';
 import 'package:year_in_pixels/models/feelingModel.dart';
-
-import '../util.dart';
 
 class DayBoxDAO {
   static const String DAY_STORE_NAME = 'days';

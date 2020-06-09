@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:year_in_pixels/constants.dart';
+import 'package:year_in_pixels/controllers/feelingsController.dart';
 import 'package:year_in_pixels/controllers/gridController.dart';
-import './daybox.dart';
-import './util.dart';
-import 'controllers/feelingsController.dart';
+import 'package:year_in_pixels/helpers/constants.dart';
+import 'package:year_in_pixels/helpers/util.dart';
+import 'package:year_in_pixels/widgets/daybox.dart';
 
 class Grid extends StatelessWidget {
   final int year;
