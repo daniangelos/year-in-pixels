@@ -42,11 +42,10 @@ class DayBoxState extends State<DayBox> {
 
   Future<FeelingModel> createUpdateDayDialog() {
     return showDialog(
-        context: context,
-        builder: (BuildContext context) => Provider(
-              create: (context) => FeelingsController(),
-              child: ModalUpdateDay(currentColor: this._color, date: _date),
-            ));
+      context: context,
+      builder: (BuildContext context) =>
+          ModalUpdateDay(currentColor: this._color, date: _date),
+    );
   }
 }
 
@@ -76,7 +75,7 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
   Widget build(BuildContext context) {
     FeelingsController feelingsController =
         Provider.of<FeelingsController>(context);
-    _feelings = feelingsController.feelings;
+    _feelings = feelingsController.feelingsCollection.feelings;
     _selected = feelingsController.getFeelingByColor(_color);
 
     return new AlertDialog(
@@ -100,7 +99,7 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
               child: Container(
                 decoration: BoxDecoration(
                   color: _feelings[index].color,
-                  border: _color == _feelings[index].color
+                  border: _color.value == _feelings[index].color.value
                       ? Border.all(width: 2, color: Colors.black)
                       : null,
                 ),

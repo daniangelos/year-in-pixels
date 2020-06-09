@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:year_in_pixels/constants.dart';
+import 'package:year_in_pixels/controllers/gridController.dart';
 import './daybox.dart';
 import './util.dart';
+import 'controllers/feelingsController.dart';
 
 class Grid extends StatelessWidget {
   final int year;
@@ -27,21 +30,27 @@ class Grid extends StatelessWidget {
         .map((daysIndexes) => Month(days: daysIndexes))
         .toList();
 
-    return ListView(
-      children: <Widget>[
-        MonthsDisplay(),
-        Container(
-          height: 31 * BOXSIZE,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: allMonths.length + 1,
-            itemBuilder: (context, index) {
-              return index == 0 ? DaysDisplay() : allMonths[index - 1];
-            },
-          ),
-        )
-      ],
-    );
+    return Consumer2<GridController, FeelingsController>(
+        builder: (context, grid, feelingsController, child) {
+      if (grid.days.isEmpty || feelingsController.feelingsCollection == null) {
+        return Text("Loading...");
+      }
+      return ListView(
+        children: <Widget>[
+          MonthsDisplay(),
+          Container(
+            height: 31 * BOXSIZE,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: allMonths.length + 1,
+              itemBuilder: (context, index) {
+                return index == 0 ? DaysDisplay() : allMonths[index - 1];
+              },
+            ),
+          )
+        ],
+      );
+    });
   }
 }
 
