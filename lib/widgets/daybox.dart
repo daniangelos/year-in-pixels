@@ -7,21 +7,19 @@ import 'package:year_in_pixels/models/feelingModel.dart';
 import 'package:year_in_pixels/widgets/modalUpdateDay.dart';
 
 class DayBoxState extends State<DayBox> {
-  DayBoxModel _dayData;
+  DayBoxModel _dayBoxModel;
 
   @override
   Widget build(BuildContext context) {
     GridController grid = Provider.of<GridController>(context);
-    _dayData = grid.getDayByID(widget.index);
+    _dayBoxModel = grid.getDayByID(widget.index);
 
     return Center(
         child: GestureDetector(
             onTap: () {
-              createUpdateDayDialog().then((feeling) {
+              createUpdateDayDialog().then((model) {
                 setState(() {
-                  if (feeling != null) {
-                    grid.setDayFeeling(widget.index, feeling);
-                  }
+                  grid.setDay(widget.index, model);
                 });
               });
             },
@@ -31,7 +29,7 @@ class DayBoxState extends State<DayBox> {
                 height: widget.boxsize,
                 child: DecoratedBox(
                   decoration: BoxDecoration(
-                    color: _dayData.feeling.color,
+                    color: _dayBoxModel.feeling.color,
                     border: Border.all(color: Colors.white, width: 1),
                   ),
                   child: Container(
@@ -41,10 +39,10 @@ class DayBoxState extends State<DayBox> {
                       child: Align(
                           alignment: Alignment.bottomLeft,
                           child: Text(
-                            _dayData.date.day.toString(),
+                            _dayBoxModel.date.day.toString(),
                             style: TextStyle(
                               fontSize: widget.boxsize / 3.2,
-                              color: getTextColor(_dayData.feeling.color),
+                              color: getTextColor(_dayBoxModel.feeling.color),
                             ),
                           ))),
                 ),
@@ -52,11 +50,11 @@ class DayBoxState extends State<DayBox> {
             )));
   }
 
-  Future<FeelingModel> createUpdateDayDialog() {
+  Future<DayBoxModel> createUpdateDayDialog() {
     return showDialog(
       context: context,
       builder: (BuildContext context) =>
-          ModalUpdateDay(currentFeeling: _dayData.feeling, date: _dayData.date),
+          ModalUpdateDay(dayBoxModel: _dayBoxModel),
     );
   }
 }

@@ -12,17 +12,18 @@ class DayBoxDate {
 class DayBoxModel {
   FeelingModel feeling;
   DayBoxDate date;
-
+  String description;
   int id;
 
-  DayBoxModel({this.date, this.feeling});
+  DayBoxModel({this.date, this.feeling, this.description});
 
   Map<String, dynamic> toMap() {
     return {
       'day': date.day,
       'month': date.month,
       'year': date.year,
-      'feeling': feeling.toMap()
+      'feeling': feeling.toMap(),
+      'description': description
     };
   }
 
@@ -30,10 +31,15 @@ class DayBoxModel {
     return DayBoxModel(
         date:
             DayBoxDate(day: map['day'], month: map['month'], year: map['year']),
-        feeling: FeelingModel.fromMap(map['feeling']));
+        feeling: FeelingModel.fromMap(map['feeling']),
+        description: map['description']);
   }
 
   void setFeeling(FeelingModel feeling) {
     this.feeling = feeling;
+  }
+
+  void setDescription(String description) {
+    this.description = description;
   }
 }
