@@ -34,6 +34,12 @@ class GridController extends ChangeNotifier {
     return days[index].date;
   }
 
+  void setDay(int index, DayBoxModel model) {
+    days[index].setFeeling(model.feeling);
+    days[index].setDescription(model.description);
+    _dayBoxDAO.update(days[index]);
+  }
+
   void setDayFeeling(int index, FeelingModel feeling) {
     days[index].setFeeling(feeling);
     _dayBoxDAO.update(days[index]);

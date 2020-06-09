@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:year_in_pixels/controllers/feelingsController.dart';
+import 'package:year_in_pixels/models/dayBoxModel.dart';
 import 'package:year_in_pixels/models/feelingModel.dart';
 
 class ModalUpdateDayState extends State<ModalUpdateDay> {
@@ -9,11 +10,79 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
   String _date;
   FeelingModel _selected;
   Color _color;
+  DayBoxModel _dayBoxModel;
+  final _textDescriptionController = TextEditingController();
 
-  ModalUpdateDayState(Color currentColor, DateTime date) {
-    _color = currentColor;
+  ModalUpdateDayState(DayBoxModel dayBoxModel) {
+    _dayBoxModel = dayBoxModel;
+    _color = _dayBoxModel.feeling.color;
+    _textDescriptionController.text = _dayBoxModel.description;
     DateFormat formatter = DateFormat('MMM d, y');
-    _date = formatter.format(date);
+    _date = formatter.format(_dayBoxModel.date);
+  }
+
+  Widget colorContainer() {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 20.0),
+      height: 70.0,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: _feelings.length,
+        itemBuilder: (context, index) {
+          return Column(children: [
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  _color = _feelings[index].color;
+                });
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: _feelings[index].color,
+                  border: _color.value == _feelings[index].color.value
+                      ? Border.all(width: 2, color: Colors.black)
+                      : null,
+                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                ),
+                width: 50.0,
+                height: 50.0,
+                margin: EdgeInsets.only(left: 5.0),
+              ),
+            ),
+            Text(
+              _feelings[index].description,
+              style: TextStyle(
+                fontSize: 10.0,
+              ),
+            ),
+          ]);
+        },
+      ),
+    );
+  }
+
+  Widget noteInputField() {
+    return Row(
+      children: <Widget>[
+        SizedBox(
+            width: 100,
+            child: TextField(
+                controller: _textDescriptionController,
+                decoration: InputDecoration(hintText: 'Note'))),
+      ],
+    );
+  }
+
+  Widget saveButton() {
+    return MaterialButton(
+      onPressed: () {
+        _dayBoxModel.feeling = _selected;
+        _dayBoxModel.description = _textDescriptionController.text;
+        Navigator.of(context).pop(_dayBoxModel);
+      },
+      textColor: Theme.of(context).primaryColor,
+      child: const Text('Save'),
+    );
   }
 
   Widget build(BuildContext context) {
@@ -29,63 +98,26 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
         title: Text(_date),
         subtitle: Text('How was your day, Dani?'),
       ),
-      content: Container(
-        margin: EdgeInsets.symmetric(vertical: 20.0),
-        height: 70.0,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: _feelings.length,
-          itemBuilder: (context, index) {
-            return Column(children: [
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _color = _feelings[index].color;
-                  });
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: _feelings[index].color,
-                    border: _color.value == _feelings[index].color.value
-                        ? Border.all(width: 2, color: Colors.black)
-                        : null,
-                    borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                  ),
-                  width: 50.0,
-                  height: 50.0,
-                  margin: EdgeInsets.only(left: 5.0),
-                ),
-              ),
-              Text(
-                _feelings[index].description,
-                style: TextStyle(
-                  fontSize: 10.0,
-                ),
-              ),
-            ]);
-          },
-        ),
-      ),
-      actions: <Widget>[
-        MaterialButton(
-          onPressed: () {
-            Navigator.of(context).pop(_selected);
-          },
-          textColor: Theme.of(context).primaryColor,
-          child: const Text('Set color'),
-        ),
+      content: colorContainer(),
+      actions: [
+        noteInputField(),
+        saveButton(),
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    _textDescriptionController.dispose();
+    super.dispose();
   }
 }
 
 class ModalUpdateDay extends StatefulWidget {
-  final Color currentColor;
-  final DateTime date;
+  final DayBoxModel dayBoxModel;
 
-  ModalUpdateDay({Key key, this.currentColor, this.date}) : super(key: key);
+  ModalUpdateDay({Key key, this.dayBoxModel}) : super(key: key);
 
   @override
-  ModalUpdateDayState createState() =>
-      ModalUpdateDayState(this.currentColor, this.date);
+  ModalUpdateDayState createState() => ModalUpdateDayState(this.dayBoxModel);
 }
