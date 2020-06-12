@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:year_in_pixels/data/dayBoxDAO.dart';
+import 'package:year_in_pixels/models/DayInfoModel.dart';
 import 'package:year_in_pixels/models/dayBoxModel.dart';
 import 'package:year_in_pixels/models/feelingModel.dart';
 
@@ -26,14 +27,8 @@ class GridController extends ChangeNotifier {
     return days[index];
   }
 
-  void setDay(int index, DayBoxModel model) {
-    days[index].setFeeling(model.feeling);
-    days[index].setDescription(model.description);
-    _dayBoxDAO.update(days[index]);
-  }
-
-  void setDayFeeling(int index, FeelingModel feeling) {
-    days[index].setFeeling(feeling);
+  void setDay(int index, DayInfoModel model) {
+    days[index].setDayInfo(model);
     _dayBoxDAO.update(days[index]);
   }
 }

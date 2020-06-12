@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:year_in_pixels/controllers/gridController.dart';
 import 'package:year_in_pixels/helpers/util.dart';
+import 'package:year_in_pixels/models/DayInfoModel.dart';
 import 'package:year_in_pixels/models/dayBoxModel.dart';
 import 'package:year_in_pixels/models/feelingModel.dart';
 import 'package:year_in_pixels/widgets/modalUpdateDay.dart';
@@ -19,7 +20,7 @@ class DayBoxState extends State<DayBox> {
             onTap: () {
               createUpdateDayDialog().then((model) {
                 setState(() {
-                  grid.setDay(widget.index, model);
+                  if (model != null) grid.setDay(widget.index, model);
                 });
               });
             },
@@ -29,7 +30,7 @@ class DayBoxState extends State<DayBox> {
                 height: widget.boxsize,
                 child: DecoratedBox(
                   decoration: BoxDecoration(
-                    color: _dayBoxModel.feeling.color,
+                    color: _dayBoxModel.dayInfo.feeling.color,
                     border: Border.all(color: Colors.white, width: 1),
                   ),
                   child: Container(
@@ -42,7 +43,8 @@ class DayBoxState extends State<DayBox> {
                             _dayBoxModel.date.day.toString(),
                             style: TextStyle(
                               fontSize: widget.boxsize / 3.2,
-                              color: getTextColor(_dayBoxModel.feeling.color),
+                              color: getTextColor(
+                                  _dayBoxModel.dayInfo.feeling.color),
                             ),
                           ))),
                 ),
@@ -50,11 +52,13 @@ class DayBoxState extends State<DayBox> {
             )));
   }
 
-  Future<DayBoxModel> createUpdateDayDialog() {
+  Future<DayInfoModel> createUpdateDayDialog() {
     return showDialog(
       context: context,
-      builder: (BuildContext context) =>
-          ModalUpdateDay(dayBoxModel: _dayBoxModel),
+      builder: (BuildContext context) => ModalUpdateDay(
+        dayInfo: _dayBoxModel.dayInfo,
+        date: _dayBoxModel.date,
+      ),
     );
   }
 }

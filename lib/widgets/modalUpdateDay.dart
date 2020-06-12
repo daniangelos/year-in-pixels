@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:year_in_pixels/controllers/feelingsController.dart';
+import 'package:year_in_pixels/models/DayInfoModel.dart';
 import 'package:year_in_pixels/models/dayBoxModel.dart';
 import 'package:year_in_pixels/models/feelingModel.dart';
 
@@ -10,16 +11,15 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
   String _date;
   FeelingModel _selected;
   FeelingModel _feeling;
-  DayBoxModel _dayBoxModel;
+  DayInfoModel _dayInfo;
   final _textDescriptionController = TextEditingController();
 
-  ModalUpdateDayState(DayBoxModel dayBoxModel) {
-    _dayBoxModel = dayBoxModel;
-    _feeling = _dayBoxModel.feeling;
-    _textDescriptionController.text = _dayBoxModel.description;
+  ModalUpdateDayState(DayInfoModel dayInfo, DateTime date) {
+    _dayInfo = dayInfo;
+    _feeling = _dayInfo.feeling;
+    _textDescriptionController.text = _dayInfo.description;
     DateFormat formatter = DateFormat('MMM d, y');
-    final date = _dayBoxModel.date;
-    _date = formatter.format(DateTime(date.year, date.month, date.day));
+    _date = formatter.format(date);
   }
 
   Widget colorContainer() {
@@ -77,9 +77,9 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
   Widget saveButton() {
     return MaterialButton(
       onPressed: () {
-        _dayBoxModel.feeling = _selected;
-        _dayBoxModel.description = _textDescriptionController.text;
-        Navigator.of(context).pop(_dayBoxModel);
+        _dayInfo.feeling = _selected;
+        _dayInfo.description = _textDescriptionController.text;
+        Navigator.of(context).pop(_dayInfo);
       },
       textColor: Theme.of(context).primaryColor,
       child: const Text('Save'),
@@ -115,10 +115,12 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
 }
 
 class ModalUpdateDay extends StatefulWidget {
-  final DayBoxModel dayBoxModel;
+  final DayInfoModel dayInfo;
+  final DayBoxDate date;
 
-  ModalUpdateDay({Key key, this.dayBoxModel}) : super(key: key);
+  ModalUpdateDay({Key key, this.dayInfo, this.date}) : super(key: key);
 
   @override
-  ModalUpdateDayState createState() => ModalUpdateDayState(this.dayBoxModel);
+  ModalUpdateDayState createState() => ModalUpdateDayState(
+      this.dayInfo, DateTime(this.date.year, this.date.month, this.date.day));
 }
