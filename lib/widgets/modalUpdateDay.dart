@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:year_in_pixels/controllers/feelingsController.dart';
+import 'package:year_in_pixels/models/DayInfoModel.dart';
 import 'package:year_in_pixels/models/dayBoxModel.dart';
 import 'package:year_in_pixels/models/feelingModel.dart';
 
@@ -10,15 +11,15 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
   String _date;
   FeelingModel _selected;
   Color _color;
-  DayBoxModel _dayBoxModel;
+  DayInfoModel _dayInfo;
   final _textDescriptionController = TextEditingController();
 
-  ModalUpdateDayState(DayBoxModel dayBoxModel) {
-    _dayBoxModel = dayBoxModel;
-    _color = _dayBoxModel.feeling.color;
-    _textDescriptionController.text = _dayBoxModel.description;
+  ModalUpdateDayState(DayInfoModel dayInfo, DateTime date) {
+    _dayInfo = dayInfo;
+    _color = _dayInfo.feeling.color;
+    _textDescriptionController.text = _dayInfo.description;
     DateFormat formatter = DateFormat('MMM d, y');
-    _date = formatter.format(_dayBoxModel.date);
+    _date = formatter.format(date);
   }
 
   Widget colorContainer() {
@@ -76,9 +77,9 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
   Widget saveButton() {
     return MaterialButton(
       onPressed: () {
-        _dayBoxModel.feeling = _selected;
-        _dayBoxModel.description = _textDescriptionController.text;
-        Navigator.of(context).pop(_dayBoxModel);
+        _dayInfo.feeling = _selected;
+        _dayInfo.description = _textDescriptionController.text;
+        Navigator.of(context).pop(_dayInfo);
       },
       textColor: Theme.of(context).primaryColor,
       child: const Text('Save'),
@@ -114,10 +115,12 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
 }
 
 class ModalUpdateDay extends StatefulWidget {
-  final DayBoxModel dayBoxModel;
+  final DayInfoModel dayInfo;
+  final DateTime date;
 
-  ModalUpdateDay({Key key, this.dayBoxModel}) : super(key: key);
+  ModalUpdateDay({Key key, this.dayInfo, this.date}) : super(key: key);
 
   @override
-  ModalUpdateDayState createState() => ModalUpdateDayState(this.dayBoxModel);
+  ModalUpdateDayState createState() =>
+      ModalUpdateDayState(this.dayInfo, this.date);
 }

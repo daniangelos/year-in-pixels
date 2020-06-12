@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:year_in_pixels/controllers/gridController.dart';
 import 'package:year_in_pixels/helpers/util.dart';
+import 'package:year_in_pixels/models/DayInfoModel.dart';
 import 'package:year_in_pixels/models/dayBoxModel.dart';
 import 'package:year_in_pixels/widgets/modalUpdateDay.dart';
 
@@ -13,16 +14,16 @@ class DayBoxState extends State<DayBox> {
   @override
   Widget build(BuildContext context) {
     GridController grid = Provider.of<GridController>(context);
-    _color = grid.getDayFeeling(widget.index).color;
-    _date = grid.getDayDate(widget.index);
     _dayBoxModel = grid.days[widget.index];
+    _color = _dayBoxModel.dayInfo.feeling.color;
+    _date = _dayBoxModel.date;
 
     return Center(
         child: GestureDetector(
             onTap: () {
               createUpdateDayDialog().then((model) {
                 setState(() {
-                  grid.setDay(widget.index, model);
+                  if (model != null) grid.setDay(widget.index, model);
                 });
               });
             },
@@ -53,11 +54,13 @@ class DayBoxState extends State<DayBox> {
             )));
   }
 
-  Future<DayBoxModel> createUpdateDayDialog() {
+  Future<DayInfoModel> createUpdateDayDialog() {
     return showDialog(
       context: context,
-      builder: (BuildContext context) =>
-          ModalUpdateDay(dayBoxModel: _dayBoxModel),
+      builder: (BuildContext context) => ModalUpdateDay(
+        dayInfo: _dayBoxModel.dayInfo,
+        date: _date,
+      ),
     );
   }
 }
