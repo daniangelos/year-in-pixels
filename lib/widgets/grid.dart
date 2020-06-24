@@ -40,7 +40,7 @@ class Grid extends StatelessWidget {
         return Text("Loading...");
       }
       return ListView(
-        children: <Widget>[
+        children: [
           MonthsDisplay(boxsize: boxsize),
           Container(
             height: 31 * boxsize,
@@ -63,7 +63,7 @@ class MonthsDisplay extends StatelessWidget {
   final double boxsize;
 
   MonthsDisplay({Key key, this.boxsize})
-      : months = new List<Container>.generate(
+      : months = List<Container>.generate(
             12,
             (i) => Container(
                 width: boxsize,
