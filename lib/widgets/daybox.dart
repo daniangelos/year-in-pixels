@@ -53,13 +53,14 @@ class DayBoxState extends State<DayBox> {
   }
 
   Future<DayInfoModel> createUpdateDayDialog() {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) => ModalUpdateDay(
-        dayInfo: _dayBoxModel.dayInfo,
-        date: _dayBoxModel.date,
-      ),
-    );
+    return Navigator.of(context).push(PageRouteBuilder(
+        opaque: false,
+        pageBuilder: (BuildContext context, _, __) {
+          return ModalUpdateDay(
+            dayInfo: _dayBoxModel.dayInfo,
+            date: _dayBoxModel.date,
+          );
+        }));
   }
 }
 

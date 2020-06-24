@@ -22,56 +22,66 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
     _date = formatter.format(date);
   }
 
-  Widget colorContainer() {
+  Widget colorContainer(double containerHeight) {
+    double boxSize = containerHeight * 5 / 7;
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 20.0),
-      height: 70.0,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: _feelings.length,
-        itemBuilder: (context, index) {
-          return Column(children: [
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  _feeling = _feelings[index];
-                });
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: _feelings[index].color,
-                  border: _feeling == _feelings[index]
-                      ? Border.all(width: 2, color: Colors.black)
-                      : null,
-                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
+        margin: EdgeInsets.symmetric(vertical: containerHeight * 2 / 7),
+        height: containerHeight,
+        child: Align(
+          alignment: Alignment.center,
+          child: ListView.builder(
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemCount: _feelings.length,
+            itemBuilder: (context, index) {
+              return Column(children: [
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _feeling = _feelings[index];
+                    });
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: _feelings[index].color,
+                      border: _feeling == _feelings[index]
+                          ? Border.all(width: 2, color: Colors.black)
+                          : null,
+                      borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                    ),
+                    width: boxSize,
+                    height: boxSize,
+                    margin: EdgeInsets.only(left: boxSize / 10),
+                  ),
                 ),
-                width: 50.0,
-                height: 50.0,
-                margin: EdgeInsets.only(left: 5.0),
-              ),
-            ),
-            Text(
-              _feelings[index].description,
-              style: TextStyle(
-                fontSize: 10.0,
-              ),
-            ),
-          ]);
-        },
-      ),
-    );
+                Text(
+                  _feelings[index].description,
+                  style: TextStyle(
+                    fontSize: boxSize / 5,
+                  ),
+                ),
+              ]);
+            },
+          ),
+        ));
   }
 
-  Widget noteInputField() {
-    return Row(
-      children: <Widget>[
-        SizedBox(
-            width: 100,
-            child: TextField(
-                controller: _textDescriptionController,
-                decoration: InputDecoration(hintText: 'Note'))),
-      ],
-    );
+  Widget noteInputField(double boxWidth) {
+    return Flex(direction: Axis.vertical, children: [
+      Container(
+        width: boxWidth,
+        decoration: BoxDecoration(
+            border: Border.all(width: 1, color: Colors.black),
+            borderRadius: BorderRadius.all(Radius.circular(4.0))),
+        child: TextField(
+          controller: _textDescriptionController,
+          decoration: InputDecoration(hintText: 'Describe your day :)'),
+          autofocus: false,
+          maxLines: null,
+          keyboardType: TextInputType.text,
+        ),
+      )
+    ]);
   }
 
   Widget saveButton() {
@@ -92,19 +102,23 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
     _feelings = feelingsController.feelingsCollection.feelings;
     _selected = _feeling;
 
-    return AlertDialog(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0))),
-      title: ListTile(
-        title: Text(_date),
-        subtitle: Text('How was your day, Dani?'),
-      ),
-      content: colorContainer(),
-      actions: [
-        noteInputField(),
-        saveButton(),
-      ],
-    );
+    MediaQueryData queryData;
+    queryData = MediaQuery.of(context);
+    double width = queryData.size.width;
+    double height = queryData.size.height;
+
+    return Scaffold(
+        backgroundColor: Colors.white.withAlpha(245),
+        body: ListView(shrinkWrap: true, children: [
+          Align(alignment: Alignment.topRight, child: CloseButton()),
+          ListTile(
+            title: Center(child: Text(_date)),
+            subtitle: Center(child: Text('How was your day, Dani?')),
+          ),
+          colorContainer(height / 10),
+          noteInputField(width * 3 / 5),
+          saveButton(),
+        ]));
   }
 
   @override
