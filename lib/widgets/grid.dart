@@ -7,9 +7,7 @@ import 'package:year_in_pixels/helpers/util.dart';
 import 'package:year_in_pixels/widgets/daybox.dart';
 
 class Grid extends StatelessWidget {
-  final int year;
-
-  Grid({Key key, this.year}) : super(key: key);
+  Grid({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,28 +15,29 @@ class Grid extends StatelessWidget {
     queryData = MediaQuery.of(context);
     double boxsize = (queryData.size.width / 12.0);
 
-    List<int> numberOfDaysPerMonth = getAllNumberOfDaysPerMonth(year);
-    List<List<int>> monthsListOfDaysIndexes = List<List<int>>();
-
-    int index = 0;
-    numberOfDaysPerMonth.forEach((numberOfDays) {
-      List<int> daysIndexes = List<int>();
-      for (int i = 0; i < numberOfDays; i++) {
-        daysIndexes.add(index);
-        index++;
-      }
-      monthsListOfDaysIndexes.add(daysIndexes);
-    });
-
-    List<Month> allMonths = monthsListOfDaysIndexes
-        .map((daysIndexes) => Month(days: daysIndexes, boxsize: boxsize))
-        .toList();
-
     return Consumer2<GridController, FeelingsController>(
         builder: (context, grid, feelingsController, child) {
       if (grid.days.isEmpty || feelingsController.feelingsCollection == null) {
         return Text("Loading...");
       }
+
+      List<int> numberOfDaysPerMonth = getAllNumberOfDaysPerMonth(grid.year);
+      List<List<int>> monthsListOfDaysIndexes = [];
+
+      int index = 0;
+      numberOfDaysPerMonth.forEach((numberOfDays) {
+        List<int> daysIndexes = [];
+        for (int i = 0; i < numberOfDays; i++) {
+          daysIndexes.add(index);
+          index++;
+        }
+        monthsListOfDaysIndexes.add(daysIndexes);
+      });
+
+      List<Month> allMonths = monthsListOfDaysIndexes
+          .map((daysIndexes) => Month(days: daysIndexes, boxsize: boxsize))
+          .toList();
+
       return ListView(
         children: <Widget>[
           MonthsDisplay(boxsize: boxsize),

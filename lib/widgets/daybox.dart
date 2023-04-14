@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:year_in_pixels/controllers/gridController.dart';
-import 'package:year_in_pixels/helpers/constants.dart';
 import 'package:year_in_pixels/helpers/util.dart';
 import 'package:year_in_pixels/models/feelingModel.dart';
 import 'package:year_in_pixels/widgets/modalUpdateDay.dart';
