@@ -42,11 +42,16 @@ class DayBoxDAO {
       finder: finder,
     );
 
-    return recordSnapshots.map((snapshot) {
+    List<DayBoxModel> daysList = recordSnapshots.map((snapshot) {
       final dayBox = DayBoxModel.fromMap(snapshot.value);
       dayBox.id = snapshot.key;
       return dayBox;
     }).toList();
+
+    if (daysList.isEmpty) {
+      daysList = await createAllDays(year);
+    }
+    return daysList;
   }
 
   static Random random = new Random();
@@ -57,8 +62,7 @@ class DayBoxDAO {
     for (int month = 1; month <= 12; month++) {
       for (int day = 1; day <= numberOfDaysPerMonth[month - 1]; day++) {
         await insert(DayBoxModel(
-            date: DateTime.utc(year, month, day),
-            feeling: FeelingModel.getAllFeelings()[random.nextInt(6)]));
+            date: DateTime.utc(year, month, day), feeling: FeelingModel()));
       }
     }
 
