@@ -7,6 +7,7 @@ class FeelingModel {
   FeelingModel({this.color, this.description});
 
   static List colors = [
+    Colors.white,
     Colors.pink,
     Colors.black,
     Colors.blue,
@@ -16,6 +17,7 @@ class FeelingModel {
   ];
 
   static List<String> descriptions = [
+    "",
     "Marvelous",
     "Very Sad",
     "Normal",
@@ -25,8 +27,8 @@ class FeelingModel {
   ];
 
   static List<FeelingModel> getAllFeelings() {
-    List<FeelingModel> feelings = List<FeelingModel>();
-    for (int i = 0; i < 6; i++) {
+    List<FeelingModel> feelings = [];
+    for (int i = 1; i < 7; i++) {
       feelings
           .add(FeelingModel(color: colors[i], description: descriptions[i]));
     }

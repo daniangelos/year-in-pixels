@@ -62,7 +62,10 @@ class DayBoxDAO {
     for (int month = 1; month <= 12; month++) {
       for (int day = 1; day <= numberOfDaysPerMonth[month - 1]; day++) {
         await insert(DayBoxModel(
-            date: DateTime.utc(year, month, day), feeling: FeelingModel()));
+            date: DateTime.utc(year, month, day),
+            feeling: FeelingModel(
+                color: FeelingModel.colors[0],
+                description: FeelingModel.descriptions[0])));
       }
     }
 
