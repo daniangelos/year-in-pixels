@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:year_in_pixels/controllers/gridController.dart';
 import 'package:year_in_pixels/helpers/util.dart';
+import 'package:year_in_pixels/models/dayBoxModel.dart';
 import 'package:year_in_pixels/models/feelingModel.dart';
 import 'package:year_in_pixels/widgets/modalUpdateDay.dart';
 
 class DayBoxState extends State<DayBox> {
   Color _color;
-  DateTime _date;
+  DayBoxDate _date;
 
   @override
   Widget build(BuildContext context) {

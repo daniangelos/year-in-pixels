@@ -54,15 +54,13 @@ class DayBoxDAO {
     return daysList;
   }
 
-  static Random random = new Random();
-
   Future<List<DayBoxModel>> createAllDays(int year) async {
     List<int> numberOfDaysPerMonth = getAllNumberOfDaysPerMonth(year);
 
     for (int month = 1; month <= 12; month++) {
       for (int day = 1; day <= numberOfDaysPerMonth[month - 1]; day++) {
         await insert(DayBoxModel(
-            date: DateTime.utc(year, month, day),
+            date: DayBoxDate(day: day, month: month, year: year),
             feeling: FeelingModel(
                 color: FeelingModel.colors[0],
                 description: FeelingModel.descriptions[0])));

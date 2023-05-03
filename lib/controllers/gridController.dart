@@ -26,7 +26,7 @@ class GridController extends ChangeNotifier {
     return days[index].feeling;
   }
 
-  DateTime getDayDate(int index) {
+  DayBoxDate getDayDate(int index) {
     return days[index].date;
   }
 
