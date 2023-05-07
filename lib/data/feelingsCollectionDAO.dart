@@ -11,8 +11,8 @@ class FeelingsDAO {
   final _feelingsStore = intMapStoreFactory.store(FEELINGS_STORE_NAME);
   Future<Database> get _db async => await AppDatabase.instance.database;
 
-  Future insert(FeelingsCollectionModel feelings) async {
-    await _feelingsStore.add(await _db, feelings.toMap());
+  Future<int> insert(FeelingsCollectionModel feelings) async {
+    return _feelingsStore.add(await _db, feelings.toMap());
   }
 
   Future update(FeelingsCollectionModel feelings) async {
@@ -33,48 +33,25 @@ class FeelingsDAO {
   }
 
   Future<FeelingsCollectionModel> getAllFeelings(int year) async {
-    final snapshot = await _feelingsStore.findFirst(
-      await _db,
-    );
+    final finder = Finder(filter: Filter.equals('year', year));
+    final snapshot = await _feelingsStore.findFirst(await _db, finder: finder);
 
-    if (snapshot == null) return null;
+    if (snapshot == null) {
+      final feelings = await createDefaultCollection(year);
+      return feelings;
+    }
 
     final feelings = FeelingsCollectionModel.fromMap(snapshot.value);
     feelings.id = snapshot.key;
+
     return feelings;
   }
 
-  static Random random = new Random();
-
   Future<FeelingsCollectionModel> createDefaultCollection(int year) async {
-    List colors = [
-      Colors.white,
-      Colors.pink,
-      Colors.black,
-      Colors.blue,
-      Colors.red,
-      Colors.green,
-      Colors.yellow,
-    ];
+    final defaultFeelingsCollection = FeelingsCollectionModel(
+        feelings: FeelingModel.getDefaultFeelings(), year: year);
 
-    List<String> descriptions = [
-      "",
-      "Marvelous",
-      "Very Sad",
-      "Normal",
-      "Stressed",
-      "Productive",
-      "Happy",
-    ];
-
-    List<FeelingModel> feelings = List<FeelingModel>();
-    for (int i = 0; i < 7; i++) {
-      feelings
-          .add(FeelingModel(color: colors[i], description: descriptions[i]));
-    }
-
-    await insert(FeelingsCollectionModel(feelings: feelings));
-
-    return getAllFeelings(year);
+    defaultFeelingsCollection.id = await insert(defaultFeelingsCollection);
+    return defaultFeelingsCollection;
   }
 }
