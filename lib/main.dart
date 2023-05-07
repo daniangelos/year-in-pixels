@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text('Year in Pixels'),
         ),
-        body: Grid(year: 2020),
+        body: Grid(),
       ),
     );
   }

@@ -13,11 +13,7 @@ class GridController extends ChangeNotifier {
     days = [];
     _dayBoxDAO = DayBoxDAO();
     _dayBoxDAO.getAllDays(year).then((daysList) {
-      if (daysList.isEmpty) {
-        _dayBoxDAO.createAllDays(year).then((newList) => updateDays(newList));
-      } else {
-        updateDays(daysList);
-      }
+      updateDays(daysList);
     });
   }
 
@@ -30,7 +26,7 @@ class GridController extends ChangeNotifier {
     return days[index].feeling;
   }
 
-  DateTime getDayDate(int index) {
+  DayBoxDate getDayDate(int index) {
     return days[index].date;
   }
 

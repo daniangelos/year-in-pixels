@@ -1,27 +1,35 @@
+import 'dart:ffi';
+
 import 'package:sembast/timestamp.dart';
 
 import 'feelingModel.dart';
 
+class DayBoxDate {
+  int day, month, year;
+  DayBoxDate({this.day, this.month, this.year});
+}
+
 class DayBoxModel {
   FeelingModel feeling;
-  DateTime date;
-  int id, year;
+  DayBoxDate date;
 
-  DayBoxModel({this.date, this.feeling}) : year = date.year;
+  int id;
 
-  // We are converting from DateTime to Timestamp
-  // because Sembast doesn't accept DateTime type
+  DayBoxModel({this.date, this.feeling});
+
   Map<String, dynamic> toMap() {
     return {
-      'date': Timestamp.fromDateTime(date),
-      'year': year,
+      'day': date.day,
+      'month': date.month,
+      'year': date.year,
       'feeling': feeling.toMap()
     };
   }
 
   static DayBoxModel fromMap(Map<String, dynamic> map) {
     return DayBoxModel(
-        date: map['date'].toDateTime(),
+        date:
+            DayBoxDate(day: map['day'], month: map['month'], year: map['year']),
         feeling: FeelingModel.fromMap(map['feeling']));
   }
 

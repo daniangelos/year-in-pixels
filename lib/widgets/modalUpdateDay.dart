@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:year_in_pixels/controllers/feelingsController.dart';
+import 'package:year_in_pixels/models/dayBoxModel.dart';
 import 'package:year_in_pixels/models/feelingModel.dart';
 
 class ModalUpdateDayState extends State<ModalUpdateDay> {
@@ -10,10 +11,10 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
   FeelingModel _selected;
   Color _color;
 
-  ModalUpdateDayState(Color currentColor, DateTime date) {
+  ModalUpdateDayState(Color currentColor, DayBoxDate date) {
     _color = currentColor;
     DateFormat formatter = DateFormat('MMM d, y');
-    _date = formatter.format(date);
+    _date = formatter.format(DateTime(date.year, date.month, date.day));
   }
 
   Widget build(BuildContext context) {
@@ -32,6 +33,7 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
       content: Container(
         margin: EdgeInsets.symmetric(vertical: 20.0),
         height: 70.0,
+        width: 70.0,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: _feelings.length,
@@ -81,7 +83,7 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
 
 class ModalUpdateDay extends StatefulWidget {
   final Color currentColor;
-  final DateTime date;
+  final DayBoxDate date;
 
   ModalUpdateDay({Key key, this.currentColor, this.date}) : super(key: key);
 

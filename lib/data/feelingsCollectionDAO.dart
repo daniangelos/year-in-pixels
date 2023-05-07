@@ -47,7 +47,8 @@ class FeelingsDAO {
   static Random random = new Random();
 
   Future<FeelingsCollectionModel> createDefaultCollection(int year) async {
-    List<Color> colors = [
+    List colors = [
+      Colors.white,
       Colors.pink,
       Colors.black,
       Colors.blue,
@@ -57,6 +58,7 @@ class FeelingsDAO {
     ];
 
     List<String> descriptions = [
+      "",
       "Marvelous",
       "Very Sad",
       "Normal",
@@ -66,7 +68,7 @@ class FeelingsDAO {
     ];
 
     List<FeelingModel> feelings = List<FeelingModel>();
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 7; i++) {
       feelings
           .add(FeelingModel(color: colors[i], description: descriptions[i]));
     }
