@@ -11,13 +11,7 @@ class FeelingsController extends ChangeNotifier {
     int year = DateTime.now().year;
     _feelingsDAO = FeelingsDAO();
     _feelingsDAO.getAllFeelings(year).then((collection) {
-      if (collection == null) {
-        _feelingsDAO
-            .createDefaultCollection(year)
-            .then((newCollection) => updateFeelings(newCollection));
-      } else {
-        updateFeelings(collection);
-      }
+      updateFeelings(collection);
     });
   }
 

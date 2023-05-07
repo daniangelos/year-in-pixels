@@ -7,7 +7,7 @@ class FeelingModel {
   FeelingModel({this.color, this.description});
 
   static List colors = [
-    Colors.white,
+    Color.fromARGB(255, 192, 192, 192),
     Colors.pink,
     Colors.black,
     Colors.blue,
@@ -26,7 +26,7 @@ class FeelingModel {
     "Happy",
   ];
 
-  static List<FeelingModel> getAllFeelings() {
+  static List<FeelingModel> getDefaultFeelings() {
     List<FeelingModel> feelings = [];
     for (int i = 0; i < 7; i++) {
       feelings
