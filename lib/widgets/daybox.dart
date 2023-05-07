@@ -7,14 +7,12 @@ import 'package:year_in_pixels/models/feelingModel.dart';
 import 'package:year_in_pixels/widgets/modalUpdateDay.dart';
 
 class DayBoxState extends State<DayBox> {
-  Color _color;
-  DayBoxDate _date;
+  DayBoxModel _dayData;
 
   @override
   Widget build(BuildContext context) {
     GridController grid = Provider.of<GridController>(context);
-    _color = grid.getDayFeeling(widget.index).color;
-    _date = grid.getDayDate(widget.index);
+    _dayData = grid.getDayByID(widget.index);
 
     return Center(
         child: GestureDetector(
@@ -33,7 +31,7 @@ class DayBoxState extends State<DayBox> {
                 height: widget.boxsize,
                 child: DecoratedBox(
                   decoration: BoxDecoration(
-                    color: _color,
+                    color: _dayData.feeling.color,
                     border: Border.all(color: Colors.white, width: 1),
                   ),
                   child: Container(
@@ -43,10 +41,10 @@ class DayBoxState extends State<DayBox> {
                       child: Align(
                           alignment: Alignment.bottomLeft,
                           child: Text(
-                            _date.day.toString(),
+                            _dayData.date.day.toString(),
                             style: TextStyle(
                               fontSize: widget.boxsize / 3.2,
-                              color: getTextColor(_color),
+                              color: getTextColor(_dayData.feeling.color),
                             ),
                           ))),
                 ),
@@ -58,7 +56,7 @@ class DayBoxState extends State<DayBox> {
     return showDialog(
       context: context,
       builder: (BuildContext context) =>
-          ModalUpdateDay(currentColor: this._color, date: _date),
+          ModalUpdateDay(currentFeeling: _dayData.feeling, date: _dayData.date),
     );
   }
 }

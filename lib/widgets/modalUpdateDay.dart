@@ -9,10 +9,10 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
   List<FeelingModel> _feelings;
   String _date;
   FeelingModel _selected;
-  Color _color;
+  FeelingModel _feeling;
 
-  ModalUpdateDayState(Color currentColor, DayBoxDate date) {
-    _color = currentColor;
+  ModalUpdateDayState(FeelingModel feeling, DayBoxDate date) {
+    _feeling = feeling;
     DateFormat formatter = DateFormat('MMM d, y');
     _date = formatter.format(DateTime(date.year, date.month, date.day));
   }
@@ -21,7 +21,7 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
     FeelingsController feelingsController =
         Provider.of<FeelingsController>(context);
     _feelings = feelingsController.feelingsCollection.feelings;
-    _selected = feelingsController.getFeelingByColor(_color);
+    _selected = _feeling;
 
     return AlertDialog(
       shape: RoundedRectangleBorder(
@@ -42,13 +42,13 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
               GestureDetector(
                 onTap: () {
                   setState(() {
-                    _color = _feelings[index].color;
+                    _feeling = _feelings[index];
                   });
                 },
                 child: Container(
                   decoration: BoxDecoration(
                     color: _feelings[index].color,
-                    border: _color.value == _feelings[index].color.value
+                    border: _feeling == _feelings[index]
                         ? Border.all(width: 2, color: Colors.black)
                         : null,
                     borderRadius: BorderRadius.all(Radius.circular(4.0)),
@@ -82,12 +82,12 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
 }
 
 class ModalUpdateDay extends StatefulWidget {
-  final Color currentColor;
+  final FeelingModel currentFeeling;
   final DayBoxDate date;
 
-  ModalUpdateDay({Key key, this.currentColor, this.date}) : super(key: key);
+  ModalUpdateDay({Key key, this.currentFeeling, this.date}) : super(key: key);
 
   @override
   ModalUpdateDayState createState() =>
-      ModalUpdateDayState(this.currentColor, this.date);
+      ModalUpdateDayState(this.currentFeeling, this.date);
 }

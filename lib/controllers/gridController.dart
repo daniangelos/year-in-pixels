@@ -22,12 +22,8 @@ class GridController extends ChangeNotifier {
     notifyListeners();
   }
 
-  FeelingModel getDayFeeling(int index) {
-    return days[index].feeling;
-  }
-
-  DayBoxDate getDayDate(int index) {
-    return days[index].date;
+  DayBoxModel getDayByID(int index) {
+    return days[index];
   }
 
   void setDayFeeling(int index, FeelingModel feeling) {
