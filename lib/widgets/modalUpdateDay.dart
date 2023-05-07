@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:year_in_pixels/controllers/feelingsController.dart';
-import 'package:year_in_pixels/models/DayInfoModel.dart';
+import 'package:year_in_pixels/models/dayInfoModel.dart';
 import 'package:year_in_pixels/models/dayBoxModel.dart';
 import 'package:year_in_pixels/models/feelingModel.dart';
 
