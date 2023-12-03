@@ -1,7 +1,4 @@
-import 'dart:ffi';
-
-import 'package:sembast/timestamp.dart';
-
+import 'dayInfoModel.dart';
 import 'feelingModel.dart';
 
 class DayBoxDate {
@@ -10,30 +7,32 @@ class DayBoxDate {
 }
 
 class DayBoxModel {
-  FeelingModel feeling;
+  DayInfoModel dayInfo;
   DayBoxDate date;
-
   int id;
 
-  DayBoxModel({this.date, this.feeling});
+  DayBoxModel({this.date, FeelingModel feeling, String description})
+      : dayInfo = DayInfoModel(feeling: feeling, description: description);
+
+  DayBoxModel.withDayInfo({this.date, this.dayInfo});
 
   Map<String, dynamic> toMap() {
     return {
       'day': date.day,
       'month': date.month,
       'year': date.year,
-      'feeling': feeling.toMap()
+      'dayInfo': dayInfo.toMap(),
     };
   }
 
   static DayBoxModel fromMap(Map<String, dynamic> map) {
-    return DayBoxModel(
-        date:
-            DayBoxDate(day: map['day'], month: map['month'], year: map['year']),
-        feeling: FeelingModel.fromMap(map['feeling']));
+    return DayBoxModel.withDayInfo(
+      date: DayBoxDate(day: map['day'], month: map['month'], year: map['year']),
+      dayInfo: DayInfoModel.fromMap(map['dayInfo']),
+    );
   }
 
-  void setFeeling(FeelingModel feeling) {
-    this.feeling = feeling;
+  void setDayInfo(DayInfoModel dayInfo) {
+    this.dayInfo = dayInfo;
   }
 }

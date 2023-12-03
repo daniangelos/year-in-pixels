@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:year_in_pixels/controllers/feelingsController.dart';
+import 'package:year_in_pixels/models/dayInfoModel.dart';
 import 'package:year_in_pixels/models/dayBoxModel.dart';
 import 'package:year_in_pixels/models/feelingModel.dart';
 
@@ -10,11 +11,89 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
   String _date;
   FeelingModel _selected;
   FeelingModel _feeling;
+  DayInfoModel _dayInfo;
+  final _textDescriptionController = TextEditingController();
 
-  ModalUpdateDayState(FeelingModel feeling, DayBoxDate date) {
-    _feeling = feeling;
+  ModalUpdateDayState(DayInfoModel dayInfo, DateTime date) {
+    _dayInfo = dayInfo;
+    _feeling = _dayInfo.feeling;
+    _textDescriptionController.text = _dayInfo.description;
     DateFormat formatter = DateFormat('MMM d, y');
-    _date = formatter.format(DateTime(date.year, date.month, date.day));
+    _date = formatter.format(date);
+  }
+
+  Widget colorContainer(double containerHeight) {
+    double boxSize = containerHeight * 5 / 7;
+    return Container(
+        margin: EdgeInsets.symmetric(vertical: containerHeight * 2 / 7),
+        height: containerHeight,
+        child: Align(
+          alignment: Alignment.center,
+          child: ListView.builder(
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemCount: _feelings.length,
+            itemBuilder: (context, index) {
+              return Column(children: [
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _feeling = _feelings[index];
+                    });
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: _feelings[index].color,
+                      border: _feeling == _feelings[index]
+                          ? Border.all(width: 2, color: Colors.black)
+                          : null,
+                      borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                    ),
+                    width: boxSize,
+                    height: boxSize,
+                    margin: EdgeInsets.only(left: boxSize / 10),
+                  ),
+                ),
+                Text(
+                  _feelings[index].description,
+                  style: TextStyle(
+                    fontSize: boxSize / 5,
+                  ),
+                ),
+              ]);
+            },
+          ),
+        ));
+  }
+
+  Widget noteInputField(double boxWidth) {
+    return Flex(direction: Axis.vertical, children: [
+      Container(
+        width: boxWidth,
+        decoration: BoxDecoration(
+            border: Border.all(width: 1, color: Colors.black),
+            borderRadius: BorderRadius.all(Radius.circular(4.0))),
+        child: TextField(
+          controller: _textDescriptionController,
+          decoration: InputDecoration(hintText: 'Describe your day :)'),
+          autofocus: false,
+          maxLines: null,
+          keyboardType: TextInputType.text,
+        ),
+      )
+    ]);
+  }
+
+  Widget saveButton() {
+    return MaterialButton(
+      onPressed: () {
+        _dayInfo.feeling = _selected;
+        _dayInfo.description = _textDescriptionController.text;
+        Navigator.of(context).pop(_dayInfo);
+      },
+      textColor: Theme.of(context).primaryColor,
+      child: const Text('Save'),
+    );
   }
 
   Widget build(BuildContext context) {
@@ -23,71 +102,39 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
     _feelings = feelingsController.feelingsCollection.feelings;
     _selected = _feeling;
 
-    return AlertDialog(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0))),
-      title: ListTile(
-        title: Text(_date),
-        subtitle: Text('How was your day, Dani?'),
-      ),
-      content: Container(
-        margin: EdgeInsets.symmetric(vertical: 20.0),
-        height: 70.0,
-        width: 70.0,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: _feelings.length,
-          itemBuilder: (context, index) {
-            return Column(children: [
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _feeling = _feelings[index];
-                  });
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: _feelings[index].color,
-                    border: _feeling == _feelings[index]
-                        ? Border.all(width: 2, color: Colors.black)
-                        : null,
-                    borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                  ),
-                  width: 50.0,
-                  height: 50.0,
-                  margin: EdgeInsets.only(left: 5.0),
-                ),
-              ),
-              Text(
-                _feelings[index].description,
-                style: TextStyle(
-                  fontSize: 10.0,
-                ),
-              ),
-            ]);
-          },
-        ),
-      ),
-      actions: <Widget>[
-        MaterialButton(
-          onPressed: () {
-            Navigator.of(context).pop(_selected);
-          },
-          textColor: Theme.of(context).primaryColor,
-          child: const Text('Set color'),
-        ),
-      ],
-    );
+    MediaQueryData queryData;
+    queryData = MediaQuery.of(context);
+    double width = queryData.size.width;
+    double height = queryData.size.height;
+
+    return Scaffold(
+        backgroundColor: Colors.white.withAlpha(245),
+        body: ListView(shrinkWrap: true, children: [
+          Align(alignment: Alignment.topRight, child: CloseButton()),
+          ListTile(
+            title: Center(child: Text(_date)),
+            subtitle: Center(child: Text('How was your day, Dani?')),
+          ),
+          colorContainer(height / 10),
+          noteInputField(width * 3 / 5),
+          saveButton(),
+        ]));
+  }
+
+  @override
+  void dispose() {
+    _textDescriptionController.dispose();
+    super.dispose();
   }
 }
 
 class ModalUpdateDay extends StatefulWidget {
-  final FeelingModel currentFeeling;
+  final DayInfoModel dayInfo;
   final DayBoxDate date;
 
-  ModalUpdateDay({Key key, this.currentFeeling, this.date}) : super(key: key);
+  ModalUpdateDay({Key key, this.dayInfo, this.date}) : super(key: key);
 
   @override
-  ModalUpdateDayState createState() =>
-      ModalUpdateDayState(this.currentFeeling, this.date);
+  ModalUpdateDayState createState() => ModalUpdateDayState(
+      this.dayInfo, DateTime(this.date.year, this.date.month, this.date.day));
 }

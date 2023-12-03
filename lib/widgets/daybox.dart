@@ -2,26 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:year_in_pixels/controllers/gridController.dart';
 import 'package:year_in_pixels/helpers/util.dart';
+import 'package:year_in_pixels/models/dayInfoModel.dart';
 import 'package:year_in_pixels/models/dayBoxModel.dart';
-import 'package:year_in_pixels/models/feelingModel.dart';
 import 'package:year_in_pixels/widgets/modalUpdateDay.dart';
 
 class DayBoxState extends State<DayBox> {
-  DayBoxModel _dayData;
+  DayBoxModel _dayBoxModel;
 
   @override
   Widget build(BuildContext context) {
     GridController grid = Provider.of<GridController>(context);
-    _dayData = grid.getDayByID(widget.index);
+    _dayBoxModel = grid.getDayByID(widget.index);
 
     return Center(
         child: GestureDetector(
             onTap: () {
-              createUpdateDayDialog().then((feeling) {
+              createUpdateDayDialog().then((model) {
                 setState(() {
-                  if (feeling != null) {
-                    grid.setDayFeeling(widget.index, feeling);
-                  }
+                  if (model != null) grid.setDay(widget.index, model);
                 });
               });
             },
@@ -31,7 +29,7 @@ class DayBoxState extends State<DayBox> {
                 height: widget.boxsize,
                 child: DecoratedBox(
                   decoration: BoxDecoration(
-                    color: _dayData.feeling.color,
+                    color: _dayBoxModel.dayInfo.feeling.color,
                     border: Border.all(color: Colors.white, width: 1),
                   ),
                   child: Container(
@@ -41,10 +39,11 @@ class DayBoxState extends State<DayBox> {
                       child: Align(
                           alignment: Alignment.bottomLeft,
                           child: Text(
-                            _dayData.date.day.toString(),
+                            _dayBoxModel.date.day.toString(),
                             style: TextStyle(
                               fontSize: widget.boxsize / 3.2,
-                              color: getTextColor(_dayData.feeling.color),
+                              color: getTextColor(
+                                  _dayBoxModel.dayInfo.feeling.color),
                             ),
                           ))),
                 ),
@@ -52,12 +51,15 @@ class DayBoxState extends State<DayBox> {
             )));
   }
 
-  Future<FeelingModel> createUpdateDayDialog() {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) =>
-          ModalUpdateDay(currentFeeling: _dayData.feeling, date: _dayData.date),
-    );
+  Future<DayInfoModel> createUpdateDayDialog() {
+    return Navigator.of(context).push(PageRouteBuilder(
+        opaque: false,
+        pageBuilder: (BuildContext context, _, __) {
+          return ModalUpdateDay(
+            dayInfo: _dayBoxModel.dayInfo,
+            date: _dayBoxModel.date,
+          );
+        }));
   }
 }
 
