@@ -7,7 +7,7 @@ class FeelingModel {
   FeelingModel({this.color, this.description});
 
   static List colors = [
-    Color.fromARGB(255, 192, 192, 192),
+    Color.fromARGB(255, 217, 217, 217),
     Colors.pink,
     Colors.black,
     Colors.blue,

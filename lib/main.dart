@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:year_in_pixels/widgets/grid.dart';
 import 'controllers/feelingsController.dart';
 import 'controllers/gridController.dart';
+import 'widgets/app.dart';
 
 void main() => runApp(MultiProvider(
       providers: [
@@ -20,12 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Year in Pixels'),
-        ),
-        body: Grid(),
-      ),
+      home: App(),
     );
   }
 }
