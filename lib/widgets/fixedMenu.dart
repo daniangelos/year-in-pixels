@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class FixedMenu extends StatelessWidget {
-  const FixedMenu({Key key, this.currentIndex, this.onItemTapped})
+  const FixedMenu(
+      {Key? key, required this.currentIndex, required this.onItemTapped})
       : super(key: key);
   final int currentIndex;
   final ValueChanged<int> onItemTapped;

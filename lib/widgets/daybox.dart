@@ -7,7 +7,7 @@ import 'package:year_in_pixels/models/dayBoxModel.dart';
 import 'package:year_in_pixels/widgets/modalUpdateDay.dart';
 
 class DayBoxState extends State<DayBox> {
-  DayBoxModel _dayBoxModel;
+  late DayBoxModel _dayBoxModel;
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +51,8 @@ class DayBoxState extends State<DayBox> {
             )));
   }
 
-  Future<DayInfoModel> createUpdateDayDialog() {
-    return Navigator.of(context).push(PageRouteBuilder(
+  Future<DayInfoModel> createUpdateDayDialog() async {
+    final result = await Navigator.of(context).push(PageRouteBuilder(
         opaque: false,
         pageBuilder: (BuildContext context, _, __) {
           return ModalUpdateDay(
@@ -60,6 +60,8 @@ class DayBoxState extends State<DayBox> {
             date: _dayBoxModel.date,
           );
         }));
+
+    return result;
   }
 }
 
@@ -67,7 +69,7 @@ class DayBox extends StatefulWidget {
   final int index;
   final double boxsize;
 
-  DayBox(int index, double boxsize, {Key key})
+  DayBox(int index, double boxsize, {Key? key})
       : this.index = index,
         this.boxsize = boxsize,
         super(key: key);

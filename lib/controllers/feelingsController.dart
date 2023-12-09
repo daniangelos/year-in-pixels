@@ -4,8 +4,8 @@ import 'package:year_in_pixels/models/feelingModel.dart';
 import 'package:year_in_pixels/models/feelingsCollectionModel.dart';
 
 class FeelingsController extends ChangeNotifier {
-  FeelingsCollectionModel feelingsCollection;
-  FeelingsDAO _feelingsDAO;
+  late FeelingsCollectionModel feelingsCollection;
+  late FeelingsDAO _feelingsDAO;
 
   FeelingsController() {
     int year = DateTime.now().year;

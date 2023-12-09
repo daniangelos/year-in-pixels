@@ -7,17 +7,17 @@ import 'package:year_in_pixels/models/dayBoxModel.dart';
 import 'package:year_in_pixels/models/feelingModel.dart';
 
 class ModalUpdateDayState extends State<ModalUpdateDay> {
-  List<FeelingModel> _feelings;
-  String _date;
-  FeelingModel _selected;
-  FeelingModel _feeling;
-  DayInfoModel _dayInfo;
+  late List<FeelingModel> _feelings;
+  late String _date;
+  late FeelingModel _selected;
+  late FeelingModel _feeling;
+  late DayInfoModel _dayInfo;
   final _textDescriptionController = TextEditingController();
 
   ModalUpdateDayState(DayInfoModel dayInfo, DateTime date) {
     _dayInfo = dayInfo;
     _feeling = _dayInfo.feeling;
-    _textDescriptionController.text = _dayInfo.description;
+    _textDescriptionController.text = _dayInfo.description ?? "";
     DateFormat formatter = DateFormat('MMM d, y');
     _date = formatter.format(date);
   }
@@ -132,7 +132,8 @@ class ModalUpdateDay extends StatefulWidget {
   final DayInfoModel dayInfo;
   final DayBoxDate date;
 
-  ModalUpdateDay({Key key, this.dayInfo, this.date}) : super(key: key);
+  ModalUpdateDay({Key? key, required this.dayInfo, required this.date})
+      : super(key: key);
 
   @override
   ModalUpdateDayState createState() => ModalUpdateDayState(

@@ -4,7 +4,7 @@ class FeelingModel {
   Color color;
   String description;
 
-  FeelingModel({this.color, this.description});
+  FeelingModel({required this.color, required this.description});
 
   static List colors = [
     Color.fromARGB(255, 217, 217, 217),
