@@ -12,7 +12,7 @@ class AppDatabase {
   static final AppDatabase _singleton = AppDatabase._();
   static AppDatabase get instance => _singleton;
 
-  Completer<Database> _dbOpenCompleter;
+  Completer<Database>? _dbOpenCompleter;
   AppDatabase._();
 
   Future<Database> get database async {
@@ -20,7 +20,7 @@ class AppDatabase {
       _dbOpenCompleter = Completer();
       _openDatabase();
     }
-    return _dbOpenCompleter.future;
+    return _dbOpenCompleter!.future;
   }
 
   Future _openDatabase() async {
@@ -28,6 +28,6 @@ class AppDatabase {
     final dbPath = join(appDocumentDir.path, 'yips.db');
 
     final database = await databaseFactoryIo.openDatabase(dbPath);
-    _dbOpenCompleter.complete(database);
+    _dbOpenCompleter?.complete(database);
   }
 }

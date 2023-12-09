@@ -2,9 +2,9 @@ import 'feelingModel.dart';
 
 class DayInfoModel {
   FeelingModel feeling;
-  String description;
+  String? description;
 
-  DayInfoModel({this.feeling, this.description});
+  DayInfoModel({required this.feeling, required this.description});
 
   Map<String, dynamic> toMap() {
     return {

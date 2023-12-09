@@ -7,7 +7,7 @@ import 'package:year_in_pixels/helpers/util.dart';
 import 'package:year_in_pixels/widgets/daybox.dart';
 
 class Grid extends StatelessWidget {
-  Grid({Key key}) : super(key: key);
+  Grid({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,7 @@ class MonthsDisplay extends StatelessWidget {
   final months;
   final double boxsize;
 
-  MonthsDisplay({Key key, this.boxsize})
+  MonthsDisplay({Key? key, required this.boxsize})
       : months = List<Container>.generate(
             12,
             (i) => Container(
@@ -86,7 +86,7 @@ class DaysDisplay extends StatelessWidget {
   final days;
   final double boxsize;
 
-  DaysDisplay({Key key, this.boxsize})
+  DaysDisplay({required Key key, required this.boxsize})
       : days = new List<Container>.generate(
             31,
             (i) => Container(
@@ -111,7 +111,7 @@ class Month extends StatelessWidget {
   final List<DayBox> dayBoxes;
   final double boxsize;
 
-  Month({Key key, this.days, this.boxsize})
+  Month({Key? key, required this.days, required this.boxsize})
       : dayBoxes = days.map((index) => DayBox(index, boxsize)).toList(),
         super(key: key);
 

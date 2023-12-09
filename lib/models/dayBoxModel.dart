@@ -3,18 +3,21 @@ import 'feelingModel.dart';
 
 class DayBoxDate {
   int day, month, year;
-  DayBoxDate({this.day, this.month, this.year});
+  DayBoxDate({required this.day, required this.month, required this.year});
 }
 
 class DayBoxModel {
   DayInfoModel dayInfo;
   DayBoxDate date;
-  int id;
+  late int id;
 
-  DayBoxModel({this.date, FeelingModel feeling, String description})
+  DayBoxModel(
+      {required this.date,
+      required FeelingModel feeling,
+      required String description})
       : dayInfo = DayInfoModel(feeling: feeling, description: description);
 
-  DayBoxModel.withDayInfo({this.date, this.dayInfo});
+  DayBoxModel.withDayInfo({required this.date, required this.dayInfo});
 
   Map<String, dynamic> toMap() {
     return {

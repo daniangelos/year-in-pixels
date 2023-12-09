@@ -5,13 +5,12 @@ import 'package:year_in_pixels/models/dayBoxModel.dart';
 import 'package:year_in_pixels/models/feelingModel.dart';
 
 class GridController extends ChangeNotifier {
-  List<DayBoxModel> days;
-  int year;
-  DayBoxDAO _dayBoxDAO;
+  List<DayBoxModel> days = [];
+  late int year;
+  late DayBoxDAO _dayBoxDAO;
 
   GridController() {
     year = DateTime.now().year;
-    days = [];
     _dayBoxDAO = DayBoxDAO();
     _dayBoxDAO.getAllDays(year).then((daysList) {
       updateDays(daysList);

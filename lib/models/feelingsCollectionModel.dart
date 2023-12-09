@@ -2,10 +2,10 @@ import 'package:year_in_pixels/models/feelingModel.dart';
 
 class FeelingsCollectionModel {
   List<FeelingModel> feelings;
-  int id;
+  late int id;
   int year;
 
-  FeelingsCollectionModel({this.feelings, this.year});
+  FeelingsCollectionModel({required this.feelings, required this.year});
 
   Map<String, dynamic> toMap() {
     return {
