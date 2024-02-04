@@ -11,7 +11,7 @@ class FixedMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
-      items: [
+      items: const [
         BottomNavigationBarItem(
           icon: Icon(
             Icons.home,
@@ -31,8 +31,8 @@ class FixedMenu extends StatelessWidget {
           label: "Help",
         ),
       ],
-      onTap: this.onItemTapped,
-      currentIndex: this.currentIndex,
+      onTap: onItemTapped,
+      currentIndex: currentIndex,
     );
   }
 }

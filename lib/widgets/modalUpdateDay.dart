@@ -47,7 +47,7 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
                       border: _feeling == _feelings[index]
                           ? Border.all(width: 2, color: Colors.black)
                           : null,
-                      borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                      borderRadius: const BorderRadius.all(Radius.circular(4.0)),
                     ),
                     width: boxSize,
                     height: boxSize,
@@ -72,10 +72,10 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
         width: boxWidth,
         decoration: BoxDecoration(
             border: Border.all(width: 1, color: Colors.black),
-            borderRadius: BorderRadius.all(Radius.circular(4.0))),
+            borderRadius: const BorderRadius.all(Radius.circular(4.0))),
         child: TextField(
           controller: _textDescriptionController,
-          decoration: InputDecoration(hintText: 'Describe your day :)'),
+          decoration: const InputDecoration(hintText: 'Describe your day :)'),
           autofocus: false,
           maxLines: null,
           keyboardType: TextInputType.text,
@@ -96,6 +96,7 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
     );
   }
 
+  @override
   Widget build(BuildContext context) {
     FeelingsController feelingsController =
         Provider.of<FeelingsController>(context);
@@ -110,10 +111,10 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
     return Scaffold(
         backgroundColor: Colors.white.withAlpha(245),
         body: ListView(shrinkWrap: true, children: [
-          Align(alignment: Alignment.topRight, child: CloseButton()),
+          const Align(alignment: Alignment.topRight, child: CloseButton()),
           ListTile(
             title: Center(child: Text(_date)),
-            subtitle: Center(child: Text('How was your day, Dani?')),
+            subtitle: const Center(child: Text('How was your day, Dani?')),
           ),
           colorContainer(height / 10),
           noteInputField(width * 3 / 5),
@@ -132,10 +133,10 @@ class ModalUpdateDay extends StatefulWidget {
   final DayInfoModel dayInfo;
   final DayBoxDate date;
 
-  ModalUpdateDay({Key? key, required this.dayInfo, required this.date})
+  const ModalUpdateDay({Key? key, required this.dayInfo, required this.date})
       : super(key: key);
 
   @override
   ModalUpdateDayState createState() => ModalUpdateDayState(
-      this.dayInfo, DateTime(this.date.year, this.date.month, this.date.day));
+      dayInfo, DateTime(date.year, date.month, date.day));
 }

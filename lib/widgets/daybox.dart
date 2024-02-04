@@ -69,10 +69,8 @@ class DayBox extends StatefulWidget {
   final int index;
   final double boxsize;
 
-  DayBox(int index, double boxsize, {Key? key})
-      : this.index = index,
-        this.boxsize = boxsize,
-        super(key: key);
+  const DayBox(this.index, this.boxsize, {Key? key})
+      : super(key: key);
 
   @override
   DayBoxState createState() => DayBoxState();
