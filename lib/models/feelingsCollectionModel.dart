@@ -9,7 +9,7 @@ class FeelingsCollectionModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'feelings': feelings?.map((feeling) => feeling.toMap())?.toList(),
+      'feelings': feelings.map((feeling) => feeling.toMap()).toList(),
       'year': year
     };
   }
