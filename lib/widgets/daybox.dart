@@ -51,7 +51,7 @@ class DayBoxState extends State<DayBox> {
             )));
   }
 
-  Future<DayInfoModel> createUpdateDayDialog() async {
+  Future<DayInfoModel?> createUpdateDayDialog() async {
     final result = await Navigator.of(context).push(PageRouteBuilder(
         opaque: false,
         pageBuilder: (BuildContext context, _, __) {
