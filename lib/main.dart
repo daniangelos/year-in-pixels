@@ -9,10 +9,12 @@ void main() => runApp(MultiProvider(
         ChangeNotifierProvider(create: (context) => FeelingsController()),
         ChangeNotifierProvider(create: (context) => GridController()),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ));
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -20,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: App(),
+      home: const App(),
     );
   }
 }
