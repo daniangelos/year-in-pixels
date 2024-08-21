@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'fixedMenu.dart';
 import 'grid.dart';
+import 'settings.dart';
+import 'help.dart';
 
 enum TabItem { red, green, blue }
 
@@ -19,17 +21,10 @@ class AppState extends State<App> {
     });
   }
 
-  static Widget grid = Grid();
-
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static List<Widget> _widgetOptions = <Widget>[
-    grid,
-    Text(
-      'Index 1: Settings',
-      style: optionStyle,
-    ),
     Grid(),
+    Settings(),
+    Help(),
   ];
 
   @override
