@@ -31,8 +31,6 @@ To test this project on an Android device, follow these steps:
    - In `Developer options`, tap on `Wireless debugging`.
    - Select `Pair device with pairing code`.
    - A pairing code along with an IP address and port will be displayed.
-
-4. **Use ADB Client to Pair**:
    - Open your terminal/command prompt on your computer.
    - Run the following command, replacing `<ip>` and `<port>` with the values shown on your device:
      ```bash
@@ -40,12 +38,12 @@ To test this project on an Android device, follow these steps:
      ```
    - Enter the pairing code displayed on your device when prompted.
 
-5. **Connect to the Device from VSCode**:
+4. **Connect to the Device from VSCode**:
    - In VSCode, press `Ctrl+Shift+P` to open the command palette.
    - Search for and select `ADB: Connect to device IP`.
    - Enter the IP address and port displayed on the `Wireless debugging` screen.
 
-6. **Run the Project**:
+5. **Run the Project**:
    - With the device connected, run the project using your preferred method.
    - The app should now be deployed and running on your Android device.
 
