@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:year_in_pixels/widgets/navigationItems.dart';
 
 import 'fixedMenu.dart';
-import 'grid.dart';
-import 'settings.dart';
-import 'help.dart';
 
 enum TabItem { red, green, blue }
 
@@ -20,12 +18,6 @@ class AppState extends State<App> {
       _selectedIndex = index;
     });
   }
-
-  static List<Widget> _widgetOptions = <Widget>[
-    Grid(),
-    Settings(),
-    Help(),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +43,13 @@ class AppState extends State<App> {
       bottomNavigationBar: FixedMenu(
         currentIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
+        items: Navigation.items,
       ),
     );
   }
 
   Widget _buildBody() {
-    return _widgetOptions.elementAt(_selectedIndex);
+    var widgetOptions = Navigation.items.map((e) => e.widget).toList();
+    return widgetOptions.elementAt(_selectedIndex);
   }
 }
