@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:year_in_pixels/data/feelingsCollectionDAO.dart';
-import 'package:year_in_pixels/models/feelingModel.dart';
-import 'package:year_in_pixels/models/feelingsCollectionModel.dart';
+import 'package:year_in_pixels/data/feelings_collection_dao.dart';
+import 'package:year_in_pixels/models/feeling_model.dart';
+import 'package:year_in_pixels/models/feelings_collection_model.dart';
 
 class FeelingsController extends ChangeNotifier {
   late FeelingsCollectionModel feelingsCollection;

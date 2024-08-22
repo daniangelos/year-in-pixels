@@ -1,4 +1,4 @@
-import 'feelingModel.dart';
+import 'feeling_model.dart';
 
 class DayInfoModel {
   FeelingModel feeling;

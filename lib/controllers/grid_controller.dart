@@ -1,8 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:year_in_pixels/data/dayBoxDAO.dart';
-import 'package:year_in_pixels/models/dayInfoModel.dart';
-import 'package:year_in_pixels/models/dayBoxModel.dart';
-import 'package:year_in_pixels/models/feelingModel.dart';
+import 'package:year_in_pixels/data/day_box_dao.dart';
+import 'package:year_in_pixels/models/day_info_model.dart';
+import 'package:year_in_pixels/models/day_box_model.dart';
 
 class GridController extends ChangeNotifier {
   List<DayBoxModel> days = [];

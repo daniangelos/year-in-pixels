@@ -1,5 +1,5 @@
-import 'dayInfoModel.dart';
-import 'feelingModel.dart';
+import 'day_info_model.dart';
+import 'feeling_model.dart';
 
 class DayBoxDate {
   int day, month, year;

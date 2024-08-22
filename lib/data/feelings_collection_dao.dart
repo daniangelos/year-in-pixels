@@ -1,13 +1,12 @@
 
-import 'package:flutter/material.dart';
 import 'package:sembast/sembast.dart';
-import 'package:year_in_pixels/data/appDatabase.dart';
-import 'package:year_in_pixels/models/feelingModel.dart';
-import 'package:year_in_pixels/models/feelingsCollectionModel.dart';
+import 'package:year_in_pixels/data/app_database.dart';
+import 'package:year_in_pixels/models/feeling_model.dart';
+import 'package:year_in_pixels/models/feelings_collection_model.dart';
 
 class FeelingsDAO {
-  static const String FEELINGS_STORE_NAME = 'feelings';
-  final _feelingsStore = intMapStoreFactory.store(FEELINGS_STORE_NAME);
+  static const String feelingsStoreName = 'feelings';
+  final _feelingsStore = intMapStoreFactory.store(feelingsStoreName);
   Future<Database> get _db async => await AppDatabase.instance.database;
 
   Future<int> insert(FeelingsCollectionModel feelings) async {

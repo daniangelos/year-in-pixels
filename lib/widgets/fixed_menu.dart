@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:year_in_pixels/widgets/navigationItems.dart';
+import 'package:year_in_pixels/widgets/navigation_items.dart';
 
 class FixedMenu extends StatelessWidget {
   const FixedMenu(
@@ -13,9 +13,9 @@ class FixedMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
-      items: this.items.map((item) => BottomNavigationBarItem(icon: item.icon, label: item.label)).toList(),
-      onTap: this.onItemTapped,
-      currentIndex: this.currentIndex,
+      items: items.map((item) => BottomNavigationBarItem(icon: item.icon, label: item.label)).toList(),
+      onTap: onItemTapped,
+      currentIndex: currentIndex,
     );
   }
 }

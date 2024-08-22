@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
-import 'package:year_in_pixels/widgets/modalUpdateColorPalette.dart';
+import 'package:year_in_pixels/widgets/modals/update_color_palette.dart';
 
 class Settings extends StatefulWidget {
   const Settings({
@@ -18,26 +18,26 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return SettingsList(
       sections: [
-        SettingsSection(title: Text('Customization'), tiles: [
+        SettingsSection(title: const Text('Customization'), tiles: [
           SettingsTile(
-              title: Text('Color Palette'),
-              leading: Icon(Icons.palette),
+              title: const Text('Color Palette'),
+              leading: const Icon(Icons.palette),
               onPressed: (context) => {
                 createUpdatePaletteDialog(context)
               },)
         ]),
         SettingsSection(
-          title: Text('App Settings'),
+          title: const Text('App Settings'),
           tiles: [
             SettingsTile(
-              title: Text('Language'),
-              description: Text('English'),
-              leading: Icon(Icons.language),
+              title: const Text('Language'),
+              description: const Text('English'),
+              leading: const Icon(Icons.language),
               onPressed: (BuildContext context) {},
             ),
             SettingsTile.switchTile(
-              title: Text('Notifications'),
-              leading: Icon(Icons.notifications),
+              title: const Text('Notifications'),
+              leading: const Icon(Icons.notifications),
               onToggle: (bool value) {
                 setState(() {
                   allowNotifications = value;
@@ -52,9 +52,9 @@ class _SettingsState extends State<Settings> {
   }
   
   createUpdatePaletteDialog(BuildContext context) {
-    var pageBuilder = (BuildContext context, _, __) {
-      return ModalUpdateColorPalette();
-    };
+    pageBuilder(BuildContext context, _, __) {
+      return const ModalUpdateColorPalette();
+    }
     Navigator.of(context).push(PageRouteBuilder(
       opaque: false,
       pageBuilder: pageBuilder));

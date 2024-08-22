@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:year_in_pixels/controllers/feelingsController.dart';
-import 'package:year_in_pixels/controllers/gridController.dart';
+import 'package:year_in_pixels/controllers/feelings_controller.dart';
+import 'package:year_in_pixels/controllers/grid_controller.dart';
 import 'package:year_in_pixels/helpers/constants.dart';
 import 'package:year_in_pixels/helpers/util.dart';
-import 'package:year_in_pixels/widgets/daybox.dart';
+import 'package:year_in_pixels/widgets/day_box.dart';
 
 class Grid extends StatelessWidget {
-  Grid({Key? key}) : super(key: key);
+  const Grid({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,21 +18,21 @@ class Grid extends StatelessWidget {
     return Consumer2<GridController, FeelingsController>(
         builder: (context, grid, feelingsController, child) {
       if (grid.days.isEmpty) {
-        return Text("Loading...");
+        return const Text("Loading...");
       }
 
       List<int> numberOfDaysPerMonth = getAllNumberOfDaysPerMonth(grid.year);
       List<List<int>> monthsListOfDaysIndexes = [];
 
       int index = 0;
-      numberOfDaysPerMonth.forEach((numberOfDays) {
+      for (var numberOfDays in numberOfDaysPerMonth) {
         List<int> daysIndexes = [];
         for (int i = 0; i < numberOfDays; i++) {
           daysIndexes.add(index);
           index++;
         }
         monthsListOfDaysIndexes.add(daysIndexes);
-      });
+      }
 
       List<Month> allMonths = monthsListOfDaysIndexes
           .map((daysIndexes) => Month(days: daysIndexes, boxsize: boxsize))
@@ -41,7 +41,7 @@ class Grid extends StatelessWidget {
       return ListView(
         children: [
           MonthsDisplay(boxsize: boxsize),
-          Container(
+          SizedBox(
             height: 31 * boxsize,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
@@ -58,19 +58,19 @@ class Grid extends StatelessWidget {
 }
 
 class MonthsDisplay extends StatelessWidget {
-  final months;
+  final List<SizedBox> months;
   final double boxsize;
 
   MonthsDisplay({Key? key, required this.boxsize})
-      : months = List<Container>.generate(
+      : months = List<SizedBox>.generate(
             12,
-            (i) => Container(
+            (i) => SizedBox(
                 width: boxsize,
                 height: boxsize,
                 child: Align(
                   alignment: Alignment.center,
                   child: Text(monthsFirstLetter(i + 1),
-                      style: TextStyle(fontSize: MONTHFONTSIZE)),
+                      style: const TextStyle(fontSize: monthFontSize)),
                 ))),
         super(key: key);
 
@@ -83,13 +83,13 @@ class MonthsDisplay extends StatelessWidget {
 }
 
 class DaysDisplay extends StatelessWidget {
-  final days;
+  final List<SizedBox> days;
   final double boxsize;
 
   DaysDisplay({required Key key, required this.boxsize})
-      : days = new List<Container>.generate(
+      : days = List<SizedBox>.generate(
             31,
-            (i) => Container(
+            (i) => SizedBox(
                 width: boxsize,
                 height: boxsize,
                 child: Align(

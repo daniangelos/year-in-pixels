@@ -1,13 +1,13 @@
 
 import 'package:sembast/sembast.dart';
-import 'package:year_in_pixels/data/appDatabase.dart';
+import 'package:year_in_pixels/data/app_database.dart';
 import 'package:year_in_pixels/helpers/util.dart';
-import 'package:year_in_pixels/models/dayBoxModel.dart';
-import 'package:year_in_pixels/models/feelingModel.dart';
+import 'package:year_in_pixels/models/day_box_model.dart';
+import 'package:year_in_pixels/models/feeling_model.dart';
 
 class DayBoxDAO {
-  static const String DAY_STORE_NAME = 'days';
-  final _dayStore = intMapStoreFactory.store(DAY_STORE_NAME);
+  static const String dayStoreName = 'days';
+  final _dayStore = intMapStoreFactory.store(dayStoreName);
   Future<Database> get _db async => await AppDatabase.instance.database;
 
   Future insert(DayBoxModel dayBox) async {

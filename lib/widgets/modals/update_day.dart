@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:year_in_pixels/controllers/feelingsController.dart';
-import 'package:year_in_pixels/models/dayInfoModel.dart';
-import 'package:year_in_pixels/models/dayBoxModel.dart';
-import 'package:year_in_pixels/models/feelingModel.dart';
+import 'package:year_in_pixels/controllers/feelings_controller.dart';
+import 'package:year_in_pixels/models/day_info_model.dart';
+import 'package:year_in_pixels/models/day_box_model.dart';
+import 'package:year_in_pixels/models/feeling_model.dart';
 
-class ModalUpdateDayState extends State<ModalUpdateDay> {
+class _ModalUpdateDayState extends State<ModalUpdateDay> {
+  final _textDescriptionController = TextEditingController();
+  late final DayInfoModel _dayInfo = widget.dayInfo;
+  
   late List<FeelingModel> _feelings;
   late String _date;
   late FeelingModel _selected;
-  late FeelingModel _feeling;
-  late DayInfoModel _dayInfo;
-  final _textDescriptionController = TextEditingController();
-
-  ModalUpdateDayState(DayInfoModel dayInfo, DateTime date) {
-    _dayInfo = dayInfo;
-    _feeling = _dayInfo.feeling;
-    _textDescriptionController.text = _dayInfo.description ?? "";
-    DateFormat formatter = DateFormat('MMM d, y');
-    _date = formatter.format(date);
-  }
+  late FeelingModel _feeling = _dayInfo.feeling;
 
   Widget colorContainer(double containerHeight) {
     double boxSize = containerHeight * 5 / 7;
+    _textDescriptionController.text = _dayInfo.description ?? "";
+    var dateTime = DateTime(widget.date.year, widget.date.month, widget.date.day);
+    DateFormat formatter = DateFormat('MMM d, y');
+    _date = formatter.format(dateTime);
+
     return Container(
         margin: EdgeInsets.symmetric(vertical: containerHeight * 2 / 7),
         height: containerHeight,
@@ -47,7 +45,7 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
                       border: _feeling == _feelings[index]
                           ? Border.all(width: 2, color: Colors.black)
                           : null,
-                      borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                      borderRadius: const BorderRadius.all(Radius.circular(4.0)),
                     ),
                     width: boxSize,
                     height: boxSize,
@@ -72,10 +70,10 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
         width: boxWidth,
         decoration: BoxDecoration(
             border: Border.all(width: 1, color: Colors.black),
-            borderRadius: BorderRadius.all(Radius.circular(4.0))),
+            borderRadius: const BorderRadius.all(Radius.circular(4.0))),
         child: TextField(
           controller: _textDescriptionController,
-          decoration: InputDecoration(hintText: 'Describe your day :)'),
+          decoration: const InputDecoration(hintText: 'Describe your day :)'),
           autofocus: false,
           maxLines: null,
           keyboardType: TextInputType.text,
@@ -96,6 +94,7 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
     );
   }
 
+  @override
   Widget build(BuildContext context) {
     FeelingsController feelingsController =
         Provider.of<FeelingsController>(context);
@@ -110,10 +109,10 @@ class ModalUpdateDayState extends State<ModalUpdateDay> {
     return Scaffold(
         backgroundColor: Colors.white.withAlpha(245),
         body: ListView(shrinkWrap: true, children: [
-          Align(alignment: Alignment.topRight, child: CloseButton()),
+          const Align(alignment: Alignment.topRight, child: CloseButton()),
           ListTile(
             title: Center(child: Text(_date)),
-            subtitle: Center(child: Text('How was your day, Dani?')),
+            subtitle: const Center(child: Text('How was your day, Dani?')),
           ),
           colorContainer(height / 10),
           noteInputField(width * 3 / 5),
@@ -132,10 +131,9 @@ class ModalUpdateDay extends StatefulWidget {
   final DayInfoModel dayInfo;
   final DayBoxDate date;
 
-  ModalUpdateDay({Key? key, required this.dayInfo, required this.date})
+  const ModalUpdateDay({Key? key, required this.dayInfo, required this.date})
       : super(key: key);
 
   @override
-  ModalUpdateDayState createState() => ModalUpdateDayState(
-      this.dayInfo, DateTime(this.date.year, this.date.month, this.date.day));
+  _ModalUpdateDayState createState() => _ModalUpdateDayState();
 }

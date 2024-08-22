@@ -1,4 +1,4 @@
-import 'package:year_in_pixels/models/feelingModel.dart';
+import 'package:year_in_pixels/models/feeling_model.dart';
 
 class FeelingsCollectionModel {
   List<FeelingModel> feelings;

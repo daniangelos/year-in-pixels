@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:year_in_pixels/widgets/navigationItems.dart';
+import 'package:year_in_pixels/widgets/navigation_items.dart';
 
-import 'fixedMenu.dart';
+import 'fixed_menu.dart';
 
 enum TabItem { red, green, blue }
 
 class App extends StatefulWidget {
+  const App({super.key});
+
   @override
   State<StatefulWidget> createState() => AppState();
 }
@@ -23,15 +25,15 @@ class AppState extends State<App> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Year in Pixels'),
+        title: const Text('Year in Pixels'),
         actions: [
           PopupMenuButton(
             itemBuilder: (BuildContext context) {
               return [
-                PopupMenuItem(
+                const PopupMenuItem(
                   child: Text('Settings'),
                 ),
-                PopupMenuItem(
+                const PopupMenuItem(
                   child: Text('About'),
                 ),
               ];

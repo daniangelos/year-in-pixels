@@ -13,8 +13,8 @@ class NavigationItem {
 
 class Navigation {
   static var items = [
-    NavigationItem(Icon(Icons.home), "Home", Grid()),
-    NavigationItem(Icon(Icons.settings), "Settings", Settings()),
-    NavigationItem(Icon(Icons.help), "Help me", Help()),
+    NavigationItem(const Icon(Icons.home), "Home", const Grid()),
+    NavigationItem(const Icon(Icons.settings), "Settings", const Settings()),
+    NavigationItem(const Icon(Icons.help), "Help me", const Help()),
   ];
 }

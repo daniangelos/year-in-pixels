@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'controllers/feelingsController.dart';
-import 'controllers/gridController.dart';
+import 'controllers/feelings_controller.dart';
+import 'controllers/grid_controller.dart';
 import 'widgets/app.dart';
 
 void main() => runApp(MultiProvider(
@@ -9,10 +9,12 @@ void main() => runApp(MultiProvider(
         ChangeNotifierProvider(create: (context) => FeelingsController()),
         ChangeNotifierProvider(create: (context) => GridController()),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ));
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -20,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: App(),
+      home: const App(),
     );
   }
 }
