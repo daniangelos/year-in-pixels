@@ -17,7 +17,7 @@ class Grid extends StatelessWidget {
 
     return Consumer2<GridController, FeelingsController>(
         builder: (context, grid, feelingsController, child) {
-      if (grid.days.isEmpty || feelingsController.feelingsCollection == null) {
+      if (grid.days.isEmpty) {
         return Text("Loading...");
       }
 
