@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
-import 'package:year_in_pixels/widgets/grid.dart';
+import 'package:year_in_pixels/widgets/modalUpdateColorPalette.dart';
 
 class Settings extends StatefulWidget {
   const Settings({
@@ -20,7 +20,11 @@ class _SettingsState extends State<Settings> {
       sections: [
         SettingsSection(title: Text('Customization'), tiles: [
           SettingsTile(
-              title: Text('Color Palette'), leading: Icon(Icons.palette))
+              title: Text('Color Palette'),
+              leading: Icon(Icons.palette),
+              onPressed: (context) => {
+                createUpdatePaletteDialog(context)
+              },)
         ]),
         SettingsSection(
           title: Text('App Settings'),
@@ -45,5 +49,14 @@ class _SettingsState extends State<Settings> {
         ),
       ],
     );
+  }
+  
+  createUpdatePaletteDialog(BuildContext context) {
+    var pageBuilder = (BuildContext context, _, __) {
+      return ModalUpdateColorPalette();
+    };
+    Navigator.of(context).push(PageRouteBuilder(
+      opaque: false,
+      pageBuilder: pageBuilder));
   }
 }
