@@ -8,20 +8,28 @@ import 'package:year_in_pixels/models/feeling_model.dart';
 
 class _ModalUpdateDayState extends State<ModalUpdateDay> {
   final _textDescriptionController = TextEditingController();
-  late final DayInfoModel _dayInfo = widget.dayInfo;
-  
+  late DayInfoModel _dayInfo;
   late List<FeelingModel> _feelings;
   late String _date;
   late FeelingModel _selected;
-  late FeelingModel _feeling = _dayInfo.feeling;
+  late FeelingModel _feeling;
 
-  Widget colorContainer(double containerHeight) {
-    double boxSize = containerHeight * 5 / 7;
+  @override
+  void initState(){
+    super.initState();
+
+    _dayInfo = widget.dayInfo;
+    _feeling = _dayInfo.feeling;
     _textDescriptionController.text = _dayInfo.description ?? "";
+
     var dateTime = DateTime(widget.date.year, widget.date.month, widget.date.day);
     DateFormat formatter = DateFormat('MMM d, y');
     _date = formatter.format(dateTime);
+  }
 
+  Widget colorContainer(double containerHeight) {
+    double boxSize = containerHeight * 5 / 7;
+    
     return Container(
         margin: EdgeInsets.symmetric(vertical: containerHeight * 2 / 7),
         height: containerHeight,
